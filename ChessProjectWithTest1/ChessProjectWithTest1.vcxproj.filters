@@ -6,9 +6,30 @@
     <ClCompile Include="Main.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="NullPointerException.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="InitializationException.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="SdlIncludes.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="NullPointerException.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="InitializationException.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -16,6 +37,9 @@
   <ItemGroup>
     <Filter Include="sources">
       <UniqueIdentifier>{adc707e9-002b-4a33-a5a0-126d1cb055f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="headers">
+      <UniqueIdentifier>{f21704d2-403d-46ed-9519-2d26d83f1f78}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
