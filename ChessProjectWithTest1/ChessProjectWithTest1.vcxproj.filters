@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="test.cpp" />
-    <ClCompile Include="pch.cpp" />
     <ClCompile Include="Main.cpp">
       <Filter>sources</Filter>
     </ClCompile>
@@ -15,9 +13,26 @@
     <ClCompile Include="InitializationException.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Position.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Picture.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h" />
     <ClInclude Include="SdlIncludes.h">
       <Filter>headers</Filter>
     </ClInclude>
@@ -28,6 +43,21 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="InitializationException.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Picture.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

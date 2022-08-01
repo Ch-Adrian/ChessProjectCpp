@@ -4,6 +4,7 @@
 #include "SdlIncludes.h"
 #include "Window.h"
 #include "InitializationException.h"
+#include "Board.h"
 
 #define BOARD_WIDTH 850
 #define BOARD_HEIGHT 850
@@ -27,9 +28,17 @@ int main(int argc, char** argv) {
 
 		Window mainWindow{ "Chess", BOARD_WIDTH, BOARD_HEIGHT };
 		SDL_Surface* surf = SDL_GetWindowSurface(mainWindow.window);
-		//Board board(BOARD_WIDTH, BOARD_HEIGHT,
-			//FIELD_WIDTH, FIELD_HEIGHT,
-			//mainWindow.getRenderer(), surf->format);
+		Board board(BOARD_WIDTH, BOARD_HEIGHT,
+			FIELD_WIDTH, FIELD_HEIGHT,
+			mainWindow.getRenderer(), surf->format);
+		Picture picture;
+		picture.init("resources/black_pawn.bmp", mainWindow.getRenderer());
+		picture.setSourceRect(0, 0, 500, 500);
+		picture.setDestinationRect(0, 0, 100, 100);
+		Picture picture_background;
+		picture_background.init("resources/black_field.bmp", mainWindow.getRenderer());
+		picture_background.setSourceRect(0, 0, 100, 100);
+		picture_background.setDestinationRect(0, 0, 100, 100);
 
 		bool quit = false;
 		SDL_Event event;
@@ -46,7 +55,10 @@ int main(int argc, char** argv) {
 				SDL_SetRenderDrawColor(mainWindow.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_RenderClear(mainWindow.getRenderer());
 
-				//board.render_board(mainWindow.getRenderer());
+				board.render_board(mainWindow.getRenderer());
+				//picture_background.render(mainWindow.getRenderer());
+				//picture.render(mainWindow.getRenderer());
+
 				SDL_RenderPresent(mainWindow.getRenderer());
 
 			}

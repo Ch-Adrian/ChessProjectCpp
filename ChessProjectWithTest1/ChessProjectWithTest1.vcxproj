@@ -37,16 +37,24 @@
     <LibraryPath>C:\vclib\SDL2_mixer-2.0.4\lib\x64;C:\vclib\SDL2_image-2.0.5\lib\x64;C:\vclib\SDL2_ttf-2.0.18\lib\x64;C:\vclib\SDL2-2.0.20\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemGroup>
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="Field.h" />
     <ClInclude Include="InitializationException.h" />
     <ClInclude Include="NullPointerException.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Picture.h" />
+    <ClInclude Include="Position.h" />
     <ClInclude Include="SdlIncludes.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Field.cpp" />
     <ClCompile Include="InitializationException.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="NullPointerException.cpp" />
+    <ClCompile Include="Picture.cpp" />
+    <ClCompile Include="Position.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
