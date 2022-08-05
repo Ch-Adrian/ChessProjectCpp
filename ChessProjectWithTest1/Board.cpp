@@ -1,17 +1,16 @@
 #include "pch.h"
 #include "Board.h"
 #include <iostream>
-#include "BoardData.h"
+#include "Settings.h"
 
-Board::Board(int board_width_px, int board_height_px,
-	int field_width_px, int field_height_px,
-	SDL_Renderer* renderer, SDL_PixelFormat* format,
-		std::map<std::pair<int, int>, std::pair<int, bool>> pieces) {
+Board::Board(SDL_Renderer* renderer, std::map<std::pair<int, int>, Piece*> pieces) {
 
-	this->board_width_px = board_width_px;
-	this->board_height_px = board_height_px;
-	this->field_height_px = field_height_px;
-	this->field_width_px = field_width_px;
+	this->renderer = renderer;
+
+	this->board_width_px = BOARD_WIDTH;
+	this->board_height_px = BOARD_HEIGHT;
+	this->field_height_px = FIELD_HEIGHT;
+	this->field_width_px = FIELD_WIDTH;
 	bool c = 0;
 
 	this->array_of_fields = new Field * [10];
@@ -89,7 +88,7 @@ Board::Board(int board_width_px, int board_height_px,
 	for (auto p : pieces) {
 		int x = p.first.first;
 		int y = p.first.second;
-		Piece piece = (Piece)p.second.first;
+		PieceType piece = (PieceType)p.second.first;
 		PlayerColor color = (PlayerColor)p.second.second;
 		std::string image_source = "";
 
@@ -141,9 +140,19 @@ void Board::render_board(SDL_Renderer* renderer) {
 		for (int j = 0; j < 10; j++) {
 
 			this->array_of_fields[i][j].picture->render(renderer);
+		}
+	}
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+
 			this->array_of_pieces[i][j].picture->render(renderer);
 		}
 	}
+}
+
+void Board::drag_piece(int row, int col, int destination_x, int destination_y) {
+	this->array_of_pieces[col][row].picture->setDestinationRect(destination_x, destination_y, FIELD_WIDTH, FIELD_HEIGHT);
+	this->array_of_pieces[col][row].picture->render(renderer);
 }
 
 Board::~Board() {

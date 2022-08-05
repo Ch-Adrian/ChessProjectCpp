@@ -1,15 +1,21 @@
 #include "pch.h"
-#include "Move.h"
-#include "Field.h"
+#include "ManageData.h"
 
-class ManageData {
+bool ManageData::validate_move(std::map<std::pair<int, int>, Piece*> pieces, Move move) {
 
-public:
-	std::vector<Move> show_all_moves_for_position(Field** f, Position p, bool color);
-	std::vector<Move> show_all_moves_for_player(Field** f, bool color);
-	void change_position(Move move);
+	auto piece_from = pieces[std::make_pair(move.from->x, move.from->y)];
+	
+	switch (piece_from->get_type()) {
+			case KING: image_source = "resources/white_king.bmp";  break;
+			case QUEEN:image_source = "resources/white_queen.bmp";break;
+			case BISHOP:image_source = "resources/white_bishop.bmp";break;
+			case KNIGHT:image_source = "resources/white_knight.bmp";break;
+			case ROOK:image_source = "resources/white_rook.bmp";break;
+			case PAWN:image_source = "resources/white_pawn.bmp";break;
+			default:
+				break;
+		}
+	}
 
-private:
-	bool validate_move(Field**, Move move);
+}
 
-};

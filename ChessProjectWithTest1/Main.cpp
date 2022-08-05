@@ -6,16 +6,14 @@
 #include "InitializationException.h"
 #include "Board.h"
 #include "BoardData.h"
-
-#define BOARD_WIDTH 850
-#define BOARD_HEIGHT 850
-#define FIELD_WIDTH 100
-#define FIELD_HEIGHT 100
-
+#include "Piece.h"
+#include "Settings.h"
+#include "ManageData.h"
 
 int main(int argc, char** argv) {
 /*
-	std::map<std::pair<int, int>, std::string> mapa;
+	std::map<std::pair<int,int> , Piece> mapa;
+
 	mapa.insert({ { std::make_pair(1,1), "1,1" }, { std::make_pair(1,2), "1,2"}});
 
 	for (const auto& value : mapa) {
@@ -38,12 +36,10 @@ int main(int argc, char** argv) {
 	try {
 
 		Window mainWindow{ "Chess", BOARD_WIDTH, BOARD_HEIGHT };
-		SDL_Surface* surf = SDL_GetWindowSurface(mainWindow.window);
 		BoardData boardData;
-		Board board(BOARD_WIDTH, BOARD_HEIGHT,
-			FIELD_WIDTH, FIELD_HEIGHT,
-			mainWindow.getRenderer(), surf->format,
-			boardData.get_board());
+		Board board(mainWindow.getRenderer(), boardData.get_board());
+		ManageData dataManager;
+		/*
 		Picture picture;
 		picture.init("resources/black_pawn.bmp", mainWindow.getRenderer());
 		picture.setSourceRect(0, 0, 500, 500);
@@ -52,14 +48,55 @@ int main(int argc, char** argv) {
 		picture_background.init("resources/black_field.bmp", mainWindow.getRenderer());
 		picture_background.setSourceRect(0, 0, 100, 100);
 		picture_background.setDestinationRect(0, 0, 100, 100);
+		*/
 
 		bool quit = false;
 		SDL_Event event;
-
+		bool onDrag = false;
+		int moving_picture_init_col = -1;
+		int moving_picture_init_row = -1;
+		
 		while (!quit) {
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {
 					quit = true;
+				}
+				if (event.type == SDL_MOUSEBUTTONDOWN) {
+					int mouse_position_x_px = event.button.x - BOARD_BORDER_WIDTH;
+					int mouse_position_y_px = event.button.y - BOARD_BORDER_WIDTH;
+					std::cout << "mouse y: " << mouse_position_y_px << std::endl;
+					moving_picture_init_col = mouse_position_x_px / FIELD_WIDTH + 1;
+					moving_picture_init_row = mouse_position_y_px / FIELD_HEIGHT + 1;
+
+					std::cout << mouse_position_x_px << std::endl;
+					
+					onDrag = true;
+
+				}
+				if (event.type == SDL_MOUSEBUTTONUP) {
+					int mouse_position_x_px = event.button.x - BOARD_BORDER_WIDTH;
+					int mouse_position_y_px = event.button.y - BOARD_BORDER_WIDTH;
+					int moving_picture_final_row = mouse_position_y_px / FIELD_HEIGHT + 1;
+					int moving_picture_final_col = mouse_position_x_px / FIELD_WIDTH + 1;
+
+					dataManager.validate_move(
+						boardData.get_board(), 
+						Move(
+							new Position(25+(moving_picture_init_col-1)*100, 25 + (moving_picture_init_row-1)*100, moving_picture_init_row, moving_picture_init_col),
+							new Position(25+(moving_picture_final_col-1)*100, 25+(moving_picture_final_row-1)*100, moving_picture_final_row, moving_picture_final_col)));
+
+					onDrag = false;
+				}
+				if (event.type == SDL_MOUSEMOTION) {
+					int mouse_position_x_px = event.button.x - BOARD_BORDER_WIDTH;
+					int mouse_position_y_px = event.button.y - BOARD_BORDER_WIDTH;
+					
+					if (onDrag) {
+						std::cout << mouse_position_y_px << std::endl;
+						std::cout << "row: " << moving_picture_init_row << std::endl;
+						board.drag_piece(moving_picture_init_row, moving_picture_init_col, mouse_position_x_px - FIELD_WIDTH/2, mouse_position_y_px - FIELD_WIDTH/2);
+					}
+					
 				}
 				mainWindow.handleEvent(event);
 			}
@@ -69,6 +106,7 @@ int main(int argc, char** argv) {
 				SDL_RenderClear(mainWindow.getRenderer());
 
 				board.render_board(mainWindow.getRenderer());
+
 				//picture_background.render(mainWindow.getRenderer());
 				//picture.render(mainWindow.getRenderer());
 

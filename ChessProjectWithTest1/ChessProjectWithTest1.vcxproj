@@ -45,8 +45,10 @@
     <ClInclude Include="NullPointerException.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Picture.h" />
+    <ClInclude Include="Piece.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="SdlIncludes.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +61,7 @@
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="NullPointerException.cpp" />
     <ClCompile Include="Picture.cpp" />
+    <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="pch.cpp">

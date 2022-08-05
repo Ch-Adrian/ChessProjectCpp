@@ -40,6 +40,9 @@
     <ClCompile Include="BoardData.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="Piece.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SdlIncludes.h">
@@ -73,6 +76,12 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="BoardData.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Piece.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,6 +7,6 @@ public:
 	Position* from;
 	Position* to;
 
-	Move(Position from, Position to);
+	Move(Position* from, Position* to);
 };
 
