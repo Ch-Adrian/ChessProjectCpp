@@ -5,6 +5,7 @@
 #include "Window.h"
 #include "InitializationException.h"
 #include "Board.h"
+#include "BoardData.h"
 
 #define BOARD_WIDTH 850
 #define BOARD_HEIGHT 850
@@ -13,6 +14,16 @@
 
 
 int main(int argc, char** argv) {
+/*
+	std::map<std::pair<int, int>, std::string> mapa;
+	mapa.insert({ { std::make_pair(1,1), "1,1" }, { std::make_pair(1,2), "1,2"}});
+
+	for (const auto& value : mapa) {
+		std::cout << '[' << value.first.first << " , " << value.first.second << "] = " << value.second << "; " << std::endl;
+	}
+
+	return 0;
+	*/
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		throw InitializationException("Cannot initialize SDL!: " + std::string(SDL_GetError()) + "\n");
@@ -28,9 +39,11 @@ int main(int argc, char** argv) {
 
 		Window mainWindow{ "Chess", BOARD_WIDTH, BOARD_HEIGHT };
 		SDL_Surface* surf = SDL_GetWindowSurface(mainWindow.window);
+		BoardData boardData;
 		Board board(BOARD_WIDTH, BOARD_HEIGHT,
 			FIELD_WIDTH, FIELD_HEIGHT,
-			mainWindow.getRenderer(), surf->format);
+			mainWindow.getRenderer(), surf->format,
+			boardData.get_board());
 		Picture picture;
 		picture.init("resources/black_pawn.bmp", mainWindow.getRenderer());
 		picture.setSourceRect(0, 0, 500, 500);

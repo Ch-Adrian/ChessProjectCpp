@@ -38,8 +38,10 @@
   </PropertyGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
+    <ClInclude Include="BoardData.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="InitializationException.h" />
+    <ClInclude Include="Move.h" />
     <ClInclude Include="NullPointerException.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Picture.h" />
@@ -49,9 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="BoardData.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="InitializationException.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ManageData.cpp" />
+    <ClCompile Include="Move.cpp" />
     <ClCompile Include="NullPointerException.cpp" />
     <ClCompile Include="Picture.cpp" />
     <ClCompile Include="Position.cpp" />

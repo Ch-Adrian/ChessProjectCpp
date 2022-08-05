@@ -1,10 +1,12 @@
 #include "pch.h"
 #include "Board.h"
 #include <iostream>
+#include "BoardData.h"
 
 Board::Board(int board_width_px, int board_height_px,
 	int field_width_px, int field_height_px,
-	SDL_Renderer* renderer, SDL_PixelFormat* format) {
+	SDL_Renderer* renderer, SDL_PixelFormat* format,
+		std::map<std::pair<int, int>, std::pair<int, bool>> pieces) {
 
 	this->board_width_px = board_width_px;
 	this->board_height_px = board_height_px;
@@ -69,7 +71,7 @@ Board::Board(int board_width_px, int board_height_px,
 		c = !c;
 	}
 	// White pieces
-	for (int x = 1; x <= 8; x++) {
+	/*for (int x = 1; x <= 8; x++) {
 		this->array_of_pieces[x][2].picture->init("resources/white_pawn.bmp", renderer);
 		this->array_of_pieces[x][2].picture->setSourceRect(0, 0, this->field_width_px, this->field_height_px);
 		this->array_of_pieces[x][2].picture->setDestinationRect(25 + (x - 1) * 100, 125, this->field_width_px, this->field_height_px);
@@ -82,6 +84,44 @@ Board::Board(int board_width_px, int board_height_px,
 		this->array_of_pieces[x][7].picture->setSourceRect(0, 0, this->field_width_px, this->field_height_px);
 		this->array_of_pieces[x][7].picture->setDestinationRect(25 + (x - 1) * 100, 625, this->field_width_px, this->field_height_px);
 		//this->array_of_fields[x][7].picture->setBlendMode(SDL_BLENDMODE_BLEND);
+	}
+	*/
+	for (auto p : pieces) {
+		int x = p.first.first;
+		int y = p.first.second;
+		Piece piece = (Piece)p.second.first;
+		PlayerColor color = (PlayerColor)p.second.second;
+		std::string image_source = "";
+
+		if (color == WHITE) {
+			switch (piece) {
+				case KING: image_source = "resources/white_king.bmp"; break;
+				case QUEEN:image_source = "resources/white_queen.bmp";break;
+				case BISHOP:image_source = "resources/white_bishop.bmp";break;
+				case KNIGHT:image_source = "resources/white_knight.bmp";break;
+				case ROOK:image_source = "resources/white_rook.bmp";break;
+				case PAWN:image_source = "resources/white_pawn.bmp";break;
+				default:
+					break;
+			}
+		}
+		else {
+			switch (piece) {
+				case KING: image_source = "resources/black_king.bmp"; break;
+				case QUEEN:image_source = "resources/black_queen.bmp";break;
+				case BISHOP:image_source = "resources/black_bishop.bmp";break;
+				case KNIGHT:image_source = "resources/black_knight.bmp";break;
+				case ROOK:image_source = "resources/black_rook.bmp";break;
+				case PAWN:image_source = "resources/black_pawn.bmp";break;
+				default:
+					break;
+			}
+		}
+		//std::cout << "x,y: " << x << ',' << y << "  Piece, color:  " << piece << "," << color << std::endl;
+		this->array_of_pieces[x][y].picture->init(image_source, renderer);
+		this->array_of_pieces[x][y].picture->setSourceRect(0, 0, this->field_width_px, this->field_height_px);
+		this->array_of_pieces[x][y].picture->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, this->field_width_px, this->field_height_px);
+		
 	}
 
 }

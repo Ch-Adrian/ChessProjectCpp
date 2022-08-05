@@ -31,6 +31,15 @@
     <ClCompile Include="Picture.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="ManageData.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Move.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="BoardData.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SdlIncludes.h">
@@ -58,6 +67,12 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="Picture.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Move.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="BoardData.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
