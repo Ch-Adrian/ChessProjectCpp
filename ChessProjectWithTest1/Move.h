@@ -4,9 +4,9 @@
 class Move
 {
 public:
-	Position* from;
-	Position* to;
+	Position from;
+	Position to;
 
-	Move(Position* from, Position* to);
+	Move(const Position& from, const Position& to);
 };
 

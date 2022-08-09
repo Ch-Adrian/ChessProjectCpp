@@ -9,8 +9,11 @@
 #include "Piece.h"
 #include "Settings.h"
 #include "ManageData.h"
+#include "CommonFunctions.h"
 
 int main(int argc, char** argv) {
+
+
 /*
 	std::map<std::pair<int,int> , Piece> mapa;
 
@@ -55,7 +58,9 @@ int main(int argc, char** argv) {
 		bool onDrag = false;
 		int moving_picture_init_col = -1;
 		int moving_picture_init_row = -1;
-		
+		Move* mv = new Move(Position(1, 1), Position(2, 2));
+		CommonFunctions::validate_move(&boardData,mv);
+		delete mv;
 		while (!quit) {
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {
@@ -79,12 +84,12 @@ int main(int argc, char** argv) {
 					int moving_picture_final_row = mouse_position_y_px / FIELD_HEIGHT + 1;
 					int moving_picture_final_col = mouse_position_x_px / FIELD_WIDTH + 1;
 
-					dataManager.validate_move(
+				/*	dataManager.validate_move(
 						boardData.get_board(), 
 						Move(
 							new Position(25+(moving_picture_init_col-1)*100, 25 + (moving_picture_init_row-1)*100, moving_picture_init_row, moving_picture_init_col),
 							new Position(25+(moving_picture_final_col-1)*100, 25+(moving_picture_final_row-1)*100, moving_picture_final_row, moving_picture_final_col)));
-
+							*/
 					onDrag = false;
 				}
 				if (event.type == SDL_MOUSEMOTION) {

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Move.h"
 
-Move::Move(Position* from, Position* to) {
+Move::Move(const Position& from, const Position& to) {
 	this->from = from;
 	this->to = to;
 }

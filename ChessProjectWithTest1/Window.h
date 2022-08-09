@@ -4,7 +4,7 @@
 
 class Window
 {
-public:
+private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 
@@ -17,7 +17,7 @@ public:
 	bool fullScreen;
 	bool minimized;
 
-	void Window::initWindow();
+	void initWindow();
 	void initRenderer();
 
 public:

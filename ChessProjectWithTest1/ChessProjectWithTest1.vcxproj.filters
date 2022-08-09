@@ -43,6 +43,15 @@
     <ClCompile Include="Piece.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="King.cpp">
+      <Filter>sources\pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="Queen.cpp">
+      <Filter>sources\pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="CommonFunctions.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SdlIncludes.h">
@@ -84,6 +93,22 @@
     <ClInclude Include="Settings.h">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="ManageData.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="King.h">
+      <Filter>headers\pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="Queen.h">
+      <Filter>headers\pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonFunctions.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="IShareBoardData.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -95,5 +120,14 @@
     <Filter Include="headers">
       <UniqueIdentifier>{f21704d2-403d-46ed-9519-2d26d83f1f78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="sources\pieces">
+      <UniqueIdentifier>{1f5636d9-0d22-4592-8bd3-2bd899c634b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="headers\pieces">
+      <UniqueIdentifier>{4695af50-9033-4a3a-9cf7-01701e6eb5c8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ChessProjectWithTest1.rc" />
   </ItemGroup>
 </Project>
