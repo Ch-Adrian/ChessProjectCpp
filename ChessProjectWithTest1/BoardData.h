@@ -7,8 +7,13 @@
 class BoardData: public IShareBoardData
 {
 private:
+	std::vector<Piece*> white_pieces;
+	std::vector<Piece*> black_pieces;
+	
 	std::map<Position, Piece*> board;
-	//Piece** boardArray;
+	Piece*** boardArray;
+
+	Move pawn_double_move;
 
 public:
 
@@ -17,7 +22,10 @@ public:
 	virtual Piece* get_piece(const Position& pos);
 	virtual int get_type(const Position& pos);
 	virtual int get_color(const Position& pos);
-	void move_piece(Move move);
-
+	void move_piece(const Move& move);
+	bool validate_move(const Move& move);
+	//TODO
+	std::vector<Position> get_all_available_positions(int color);
+	~BoardData();
 };
 

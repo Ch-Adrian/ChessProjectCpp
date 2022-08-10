@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ClInclude Include="AbsolutePosition.h" />
+    <ClInclude Include="Bishop.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="BoardData.h" />
     <ClInclude Include="CommonFunctions.h" />
@@ -45,35 +46,42 @@
     <ClInclude Include="InitializationException.h" />
     <ClInclude Include="IShareBoardData.h" />
     <ClInclude Include="King.h" />
+    <ClInclude Include="Knight.h" />
     <ClInclude Include="ManageData.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="NullPointerException.h" />
+    <ClInclude Include="Pawn.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Picture.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Queen.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Rook.h" />
     <ClInclude Include="SdlIncludes.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbsolutePosition.cpp" />
+    <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="BoardData.cpp" />
     <ClCompile Include="CommonFunctions.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="InitializationException.cpp" />
     <ClCompile Include="King.cpp" />
+    <ClCompile Include="Knight.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ManageData.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="NullPointerException.cpp" />
+    <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Picture.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Queen.cpp" />
+    <ClCompile Include="Rook.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -6,7 +6,8 @@
 #define FIELD_HEIGHT 100
 #define BOARD_BORDER_WIDTH 25
 
-enum PieceType { EMPTY, KING, QUEEN, BISHOP, KNIGHT, ROOK, PAWN };
+enum PieceType { LEFT_ROOK, LEFT_KNIGHT, LEFT_BISHOP, KING, QUEEN, RIGHT_BISHOP, RIGHT_KNIGHT, RIGHT_ROOK, 
+	PAWN };
 enum PlayerColor { WHITE = false, BLACK = true};
 
 

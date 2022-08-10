@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
 		int moving_picture_init_col = -1;
 		int moving_picture_init_row = -1;
 		Move* mv = new Move(Position(1, 1), Position(2, 2));
-		CommonFunctions::validate_move(&boardData,mv);
+
 		delete mv;
 		while (!quit) {
 			while (SDL_PollEvent(&event) != 0) {
@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
 				SDL_SetRenderDrawColor(mainWindow.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_RenderClear(mainWindow.getRenderer());
 
-				board.render_board(mainWindow.getRenderer());
+				board.render_board();
 
 				//picture_background.render(mainWindow.getRenderer());
 				//picture.render(mainWindow.getRenderer());

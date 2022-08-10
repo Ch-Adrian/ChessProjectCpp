@@ -52,6 +52,21 @@
     <ClCompile Include="CommonFunctions.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="AbsolutePosition.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Rook.cpp">
+      <Filter>sources\pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="Pawn.cpp">
+      <Filter>sources\pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="Knight.cpp">
+      <Filter>sources\pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="Bishop.cpp">
+      <Filter>sources\pieces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SdlIncludes.h">
@@ -108,6 +123,21 @@
     </ClInclude>
     <ClInclude Include="IShareBoardData.h">
       <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AbsolutePosition.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Bishop.h">
+      <Filter>headers\pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="Knight.h">
+      <Filter>headers\pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="Rook.h">
+      <Filter>headers\pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="Pawn.h">
+      <Filter>headers\pieces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

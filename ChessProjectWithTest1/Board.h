@@ -16,7 +16,7 @@ public:
 	Board(SDL_Renderer* renderer,
 			std::map<Position, Piece*> pieces);
 	~Board();
-	void render_board(SDL_Renderer* renderer);
+	void render_board();
 	void change_position(int row, int col, int x_px, int y_px);
 	void drag_piece(int row, int col, int destination_x, int destination_y);
 };

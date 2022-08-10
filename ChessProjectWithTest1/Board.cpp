@@ -85,36 +85,7 @@ Board::Board(SDL_Renderer* renderer, std::map<Position, Piece*> pieces) {
 	for (auto p : pieces) {
 		int x = p.first.col;
 		int y = p.first.row;
-		PieceType piece = (PieceType)p.second->get_type();
-		PlayerColor color = (PlayerColor)p.second->get_color();
-		std::string image_source = "";
-
-		if (color == WHITE) {
-			switch (piece) {
-				case KING: image_source = "resources/white_king.bmp"; break;
-				case QUEEN:image_source = "resources/white_queen.bmp";break;
-				case BISHOP:image_source = "resources/white_bishop.bmp";break;
-				case KNIGHT:image_source = "resources/white_knight.bmp";break;
-				case ROOK:image_source = "resources/white_rook.bmp";break;
-				case PAWN:image_source = "resources/white_pawn.bmp";break;
-				default:
-					break;
-			}
-		}
-		else {
-			switch (piece) {
-				case KING: image_source = "resources/black_king.bmp"; break;
-				case QUEEN:image_source = "resources/black_queen.bmp";break;
-				case BISHOP:image_source = "resources/black_bishop.bmp";break;
-				case KNIGHT:image_source = "resources/black_knight.bmp";break;
-				case ROOK:image_source = "resources/black_rook.bmp";break;
-				case PAWN:image_source = "resources/black_pawn.bmp";break;
-				default:
-					break;
-			}
-		}
-		//std::cout << "x,y: " << x << ',' << y << "  Piece, color:  " << piece << "," << color << std::endl;
-		this->array_of_pieces[x][y].picture.init(image_source, renderer);
+		this->array_of_pieces[x][y].picture.init(p.second->get_image_source(), renderer);
 		this->array_of_pieces[x][y].picture.setSourceRect(0, 0, FIELD_WIDTH, FIELD_HEIGHT);
 		this->array_of_pieces[x][y].picture.setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, FIELD_WIDTH, FIELD_HEIGHT);
 		
@@ -131,7 +102,7 @@ Board::Board(SDL_Renderer* renderer, std::map<Position, Piece*> pieces) {
 //	this->array_of_pieces[x][y].absolutePosition.y = to_y_px;
 //}
 
-void Board::render_board(SDL_Renderer* renderer) {
+void Board::render_board() {
 
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
