@@ -99,15 +99,21 @@ const std::map<Position, Piece*> BoardData::get_board() {
 }
 
 Piece* BoardData::get_piece(const Position& pos) {
-	return this->board[pos];
+	if(pos.col <=8 && pos.col >= 1 && pos.row <=8 && pos.row >= 1)
+		return this->board[pos];
+	return nullptr;
 }
 
 int BoardData::get_type(const Position& pos) {
-	return this->board[pos]->get_type();
+	if(pos.col <=8 && pos.col >= 1 && pos.row <=8 && pos.row >= 1)
+		return this->board[pos]->get_type();
+	return -1;
 }
 
 int BoardData::get_color(const Position& pos) {
-	return this->board[pos]->get_type();
+	if(pos.col <=8 && pos.col >= 1 && pos.row <=8 && pos.row >= 1)
+		return this->board[pos]->get_type();
+	return -1;
 }
 
 void BoardData::move_piece(const Move& move) {
@@ -130,20 +136,34 @@ void BoardData::move_piece(const Move& move) {
 
 }
 
-bool BoardData::validate_move(const Move& move) {
+bool BoardData::validate_move( const Move& move) {
 	Piece* moving_piece = this->get_piece(move.from);
 
 	switch (this->get_type(move.from)) {
-	case KING: moving_piece->validate_move(move); moving_piece->validate_move(move);  break;
-		case QUEEN: moving_piece->validate_move(move); break;
-		case LEFT_BISHOP: moving_piece->validate_move(move); 
-		case RIGHT_BISHOP: moving_piece->validate_move(move); break;
-		case LEFT_KNIGHT: moving_piece->validate_move(move); 
-		case RIGHT_KNIGHT: moving_piece->validate_move(move); break;
-		case LEFT_ROOK: moving_piece->validate_move(move); 
-		case RIGHT_ROOK: moving_piece->validate_move(move); break;
-		case PAWN: moving_piece->validate_move(move); break;
+	case KING: moving_piece->validate_move(*this, move); moving_piece->validate_move(*this, move);  break;
+		case QUEEN: moving_piece->validate_move(*this, move); break;
+		case LEFT_BISHOP: moving_piece->validate_move(*this, move); 
+		case RIGHT_BISHOP: moving_piece->validate_move(*this, move); break;
+		case LEFT_KNIGHT: moving_piece->validate_move(*this, move); 
+		case RIGHT_KNIGHT: moving_piece->validate_move(*this, move); break;
+		case LEFT_ROOK: moving_piece->validate_move(*this, move); 
+		case RIGHT_ROOK: moving_piece->validate_move(*this, move); break;
+		case PAWN: moving_piece->validate_move(*this, move); break;
 		default: return false;
 	}
 }
 
+const Move& BoardData::get_last_pawn_move() {
+	return this->pawn_double_move;
+}
+
+const std::vector<Piece*> BoardData::get_one_side_pieces(PlayerColor side) {
+
+	if (side == BLACK) {
+		return this->black_pieces;
+	}
+	else {
+		return this->white_pieces;
+	}
+
+}

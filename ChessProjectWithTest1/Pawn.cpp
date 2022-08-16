@@ -11,13 +11,96 @@ Pawn::Pawn(int type, int color): Piece(type, color) {
 	}
 }
 
-bool Pawn::validate_move(const Move& move){
+bool Pawn::validate_move(IShareBoardData& share, const Move& move){
+
+	if (share.get_type(move.from) != PAWN){
+		return false;
+	}
+
+	for (Position p : this->get_available_positions(share, move.from)) {
+		if (p == move.to) {
+			return true;
+		}
+	}
+
 	return false;
 }
 
-std::vector<Position> Pawn::get_available_positions(const Position& pos) {
-	std::vector<Position> emptyVector;
-	return emptyVector;
+std::vector<Position> Pawn::get_available_positions(IShareBoardData& share, const Position& pos) {
+	std::vector<Position> availablePositions;
+
+	if (share.get_type(pos) != PAWN) {
+		return availablePositions;
+	}
+
+	if (share.get_color(pos) == WHITE) {
+		// going forward
+		if (share.get_piece(Position(pos.col, pos.row + 1)) == nullptr) {
+			availablePositions.push_back(Position(pos.col, pos.row + 1));
+			if (share.get_piece(Position(pos.col, pos.row + 2)) == nullptr) {
+				availablePositions.push_back(Position(pos.col, pos.row + 2));
+			}
+		}
+		
+		// assult
+		if (share.get_color(Position(pos.col - 1, pos.row + 1)) == BLACK) {
+			availablePositions.push_back(Position(pos.col - 1, pos.row + 1));
+		}
+		if (share.get_color(Position(pos.col + 1, pos.row + 1)) == BLACK) {
+			availablePositions.push_back(Position(pos.col + 1, pos.row + 1));
+		}
+
+		// en passant
+		if (!share.get_last_pawn_move().isEmpty()) {
+			if (share.get_color(share.get_last_pawn_move().to) == BLACK) {
+				if (share.get_last_pawn_move().to.row == pos.row) {
+					Position next_position(share.get_last_pawn_move().to.col, share.get_last_pawn_move().to.row - 1);
+					if (share.get_piece(next_position) == nullptr) {
+						if (share.get_last_pawn_move().to.col - 1 == pos.col || 
+							share.get_last_pawn_move().to.col + 1 == pos.col) {
+							availablePositions.push_back(next_position);
+						}
+					}
+				}
+			}
+		}
+
+	}
+	else if(share.get_color(pos) == BLACK) {
+		if (share.get_piece(Position(pos.col, pos.row - 1)) == nullptr) {
+			availablePositions.push_back(Position(pos.col, pos.row - 1));
+			if (share.get_piece(Position(pos.col, pos.row - 2)) == nullptr) {
+				availablePositions.push_back(Position(pos.col, pos.row - 2));
+			}
+		}
+
+		if (share.get_color(Position(pos.col - 1, pos.row - 1)) == WHITE) {
+			availablePositions.push_back(Position(pos.col - 1, pos.row - 1));
+		}
+		if (share.get_color(Position(pos.col + 1, pos.row - 1)) == WHITE) {
+			availablePositions.push_back(Position(pos.col + 1, pos.row - 1));
+		}
+
+		// en passant
+		if (!share.get_last_pawn_move().isEmpty()) {
+			if (share.get_color(share.get_last_pawn_move().to) == WHITE) {
+				if (share.get_last_pawn_move().to.row == pos.row) {
+					Position next_position(share.get_last_pawn_move().to.col, share.get_last_pawn_move().to.row + 1);
+					if (share.get_piece(next_position) == nullptr) {
+						if (share.get_last_pawn_move().to.col - 1 == pos.col || 
+							share.get_last_pawn_move().to.col + 1 == pos.col) {
+							availablePositions.push_back(next_position);
+						}
+					}
+				}
+			}
+		}
+
+
+
+	}
+
+	return availablePositions;
 
 }
 

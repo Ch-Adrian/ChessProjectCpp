@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Rook.h"
 #include "Settings.h"
+#include "CommonFunctions.h"
 
 Rook::Rook(int type, int color): Piece(type, color) {
 	if (color == WHITE) {
@@ -11,14 +12,59 @@ Rook::Rook(int type, int color): Piece(type, color) {
 	}
 }
 
-bool Rook::validate_move(const Move& move){
+bool Rook::validate_move(IShareBoardData& share, const Move& move){
+	
+	if (share.get_type(move.from) != LEFT_ROOK && share.get_type(move.from) != RIGHT_ROOK) {
+		return false;
+	}
+
+	std::vector<Position>& vec = this->get_available_positions(share, move.from);
+	for (Position p : vec) {
+		if (p == move.to) {
+			return true;
+		}
+	}
+
 	return false;
 }
 
-std::vector<Position> Rook::get_available_positions(const Position& pos) {
-	std::vector<Position> emptyVector;
-	return emptyVector;
+void increase_position1(Position& next_position, int i) {
 
+		switch (i % 4) {
+			case 0: next_position.row--; break;
+			case 1: next_position.col++; break;
+			case 2: next_position.row++; break;
+			case 3: next_position.col--; break;
+		}
+	
+}
+
+std::vector<Position> Rook::get_available_positions(IShareBoardData& share, const Position& pos) {
+	std::vector<Position> availablePositions;
+
+	if (share.get_type(pos) != LEFT_ROOK && share.get_type(pos) != RIGHT_ROOK) {
+		return availablePositions;
+	}
+
+	PlayerColor opponent_color = share.get_color(pos) == WHITE ? BLACK : WHITE;
+	Position next_position(pos);
+	
+	for (int i = 0; i < 4; i++) {
+		
+		increase_position1(next_position, i);
+
+		while (CommonFunctions::position_inside_board(next_position) && share.get_piece(next_position) == nullptr) {
+			availablePositions.push_back(next_position);
+			increase_position1(next_position, i);
+		}
+
+		if (CommonFunctions::position_inside_board(next_position) && share.get_color(next_position) == opponent_color) {
+			availablePositions.push_back(next_position);
+		}
+
+	}
+
+	return availablePositions;
 }
 
 std::string Rook::get_image_source() {

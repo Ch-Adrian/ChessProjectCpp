@@ -22,8 +22,11 @@ public:
 	virtual Piece* get_piece(const Position& pos);
 	virtual int get_type(const Position& pos);
 	virtual int get_color(const Position& pos);
+	virtual const Move& get_last_pawn_move();
+	virtual const std::vector<Piece*> get_one_side_pieces(PlayerColor side);
 	void move_piece(const Move& move);
 	bool validate_move(const Move& move);
+
 	//TODO
 	std::vector<Position> get_all_available_positions(int color);
 	~BoardData();

@@ -1,6 +1,7 @@
 #pragma once
 #include "Position.h"
 #include "Move.h"
+#include "IShareBoardData.h"
 
 class Piece
 {
@@ -12,8 +13,8 @@ public:
 
 	Piece(int type, bool color);
 
-	virtual bool validate_move(const Move& move) = 0;
-	virtual std::vector<Position> get_available_positions(const Position& pos) = 0;
+	virtual bool validate_move(IShareBoardData& share, const Move& move) = 0;
+	virtual std::vector<Position> get_available_positions(IShareBoardData& share, const Position& pos) = 0;
 	virtual std::string get_image_source() = 0;
 
 	//virtual bool validate_move(Position* from, Position* to);

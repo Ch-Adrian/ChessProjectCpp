@@ -12,5 +12,6 @@ public:
 	Move(const Move& mv);
 	Move& operator=(const Move& mv);
 	bool operator==(const Move& mv);
+	bool isEmpty() const;
 };
 

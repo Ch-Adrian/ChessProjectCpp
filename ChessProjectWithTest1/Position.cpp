@@ -27,3 +27,10 @@ Position& Position::operator=(const Position& pos) {
 	this->row = pos.row;
 	return *this;
 }
+
+bool Position::isEmpty() const {
+	if (this->row == -1 || this->col == -1) {
+		return true;
+	}
+	return false;
+}

@@ -9,8 +9,8 @@ class Pawn: public Piece
 public:
 
 	Pawn(int type, int color);
-	virtual bool validate_move(const Move& move);
-	virtual std::vector<Position> get_available_positions(const Position& pos);
+	virtual bool validate_move(IShareBoardData& share, const Move& move);
+	virtual std::vector<Position> get_available_positions(IShareBoardData& share, const Position& pos);
 	virtual std::string get_image_source();
 
 };

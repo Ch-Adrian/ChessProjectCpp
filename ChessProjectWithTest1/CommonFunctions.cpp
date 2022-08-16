@@ -15,3 +15,12 @@ int CommonFunctions::convY_to_pixels(int pos){
 int CommonFunctions::convY_to_position(int pix){
 	return (pix-25)/FIELD_HEIGHT + 1;
 }
+
+bool CommonFunctions::position_inside_board(const Position& pos) {
+	if (pos.col <= 8 && pos.col >= 1) {
+		if (pos.row <= 8 && pos.row >= 1) {
+			return true;
+		}
+	}
+	return false;
+}

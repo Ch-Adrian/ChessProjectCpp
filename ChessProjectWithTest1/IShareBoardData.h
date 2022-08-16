@@ -1,6 +1,8 @@
 #include "pch.h"
 #pragma once
-#include "Piece.h"
+#include "Settings.h"
+
+class Piece;
 
 class IShareBoardData {
 
@@ -10,5 +12,7 @@ public:
 	virtual Piece* get_piece(const Position& pos) = 0;
 	virtual int get_type(const Position& pos) = 0;
 	virtual int get_color(const Position& pos) = 0;
+	virtual const Move& get_last_pawn_move() = 0;
+	virtual const std::vector<Piece*> get_one_side_pieces(PlayerColor side) = 0;
 
 };

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Knight.h"
 #include "Settings.h"
+#include "CommonFunctions.h"
 
 Knight::Knight(int type, int color): Piece(type, color) {
 	if (color == WHITE) {
@@ -11,13 +12,57 @@ Knight::Knight(int type, int color): Piece(type, color) {
 	}
 }
 
-bool Knight::validate_move(const Move& move){
+bool Knight::validate_move(IShareBoardData& share, const Move& move) {
+
+	if (share.get_type(move.from) != LEFT_KNIGHT && share.get_type(move.from) != RIGHT_KNIGHT) {
+		return false;
+	}
+
+	for (Position p : this->get_available_positions(share, move.from)) {
+		if (p == move.to) {
+			return true;
+		}
+	}
+
 	return false;
+
 }
 
-std::vector<Position> Knight::get_available_positions(const Position& pos) {
-	std::vector<Position> emptyVector;
-	return emptyVector;
+std::vector<Position> Knight::get_available_positions(IShareBoardData& share, const Position& pos) {
+	std::vector<Position> availablePositions;
+
+	if (share.get_type(pos) != LEFT_KNIGHT && share.get_type(pos) != RIGHT_KNIGHT) {
+		return availablePositions;
+	}
+
+	PlayerColor opponent_color = share.get_color(pos) == WHITE ? BLACK : WHITE;
+	Position next_position(pos.col - 2, pos.row - 2);
+
+	for (int i = 0; i < 15; i++){
+
+		if (i % 2) {
+			if (CommonFunctions::position_inside_board(next_position)) {
+				if (share.get_piece(next_position) == nullptr ||
+					share.get_color(next_position) == opponent_color) {
+					availablePositions.push_back(next_position);
+				}
+			}
+		}
+
+		switch (i / 3) {
+		case 0:
+			next_position.col++; break;
+		case 1:
+			next_position.row++; break;
+		case 2:
+			next_position.col--; break;
+		case 3:
+			next_position.row--; break;
+		}
+	
+	}
+
+	return availablePositions;
 
 }
 

@@ -23,3 +23,9 @@ bool Move::operator==(const Move& mv) {
 	return (this->from == mv.from && this->to == mv.to);
 }
 
+bool Move::isEmpty() const{
+	if (this->from.isEmpty() && this->to.isEmpty()) {
+		return true;
+	}
+	return false;
+}
