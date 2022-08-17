@@ -61,6 +61,7 @@ std::vector<Position> Rook::get_available_positions(IShareBoardData& share, cons
 		if (CommonFunctions::position_inside_board(next_position) && share.get_color(next_position) == opponent_color) {
 			availablePositions.push_back(next_position);
 		}
+		next_position = pos;
 
 	}
 

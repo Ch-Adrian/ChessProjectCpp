@@ -93,14 +93,17 @@ Board::Board(SDL_Renderer* renderer, std::map<Position, Piece*> pieces) {
 
 }
 
-//void Board::change_position(int which_row, int which_col, int to_x_px, int to_y_px) {
-//	int x = (int)(to_x_px / 100);
-//	int y = (int)(to_y_px / 100);
-//	if (to_x_px > 0) x++;
-//	if (to_y_px > 0) y++;
-//	this->array_of_pieces[x][y].absolutePosition.x = to_x_px;
-//	this->array_of_pieces[x][y].absolutePosition.y = to_y_px;
-//}
+void Board::change_position(int which_col, int which_row, int to_x_px, int to_y_px) {
+
+	int x = (int)(to_x_px / 100);
+	int y = (int)(to_y_px / 100);
+	if (to_x_px > 0) x++;
+	if (to_y_px > 0) y++;
+	this->array_of_pieces[x][y].absolutePosition.x = to_x_px;
+	this->array_of_pieces[x][y].absolutePosition.y = to_y_px;
+	this->array_of_pieces[which_col][which_row].picture.clearAll();
+
+}
 
 void Board::render_board() {
 

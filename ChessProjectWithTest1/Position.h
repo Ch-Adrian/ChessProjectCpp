@@ -14,5 +14,6 @@ public:
 	bool operator==(const Position& pos) const;
 	Position& operator=(const Position& pos) ;
 	bool isEmpty() const;
+	friend std::ostream& operator<<(std::ostream& out, const Position& pos);
 };
 

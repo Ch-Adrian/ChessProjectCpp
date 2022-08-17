@@ -3,6 +3,7 @@
 
 Field::Field()
 {
+
 }
 
 void Field::set_picture(std::string path_to_image, SDL_Renderer* renderer)

@@ -30,10 +30,10 @@ bool Queen::validate_move(IShareBoardData& share, const Move& move) {
 void increase_position_bishop_like(Position& next_position, int i) {
 
 	switch (i % 4) {
-		case 0: next_position.col = 1; next_position.row = -1; break;
-		case 1: next_position.col = -1; next_position.row = -1; break;
-		case 2: next_position.col = 1; next_position.row = 1; break;
-		case 3: next_position.col = -1; next_position.row = 1; break;
+		case 0: next_position.col += 1; next_position.row += -1; break;
+		case 1: next_position.col += -1; next_position.row += -1; break;
+		case 2: next_position.col += 1; next_position.row += 1; break;
+		case 3: next_position.col += -1; next_position.row += 1; break;
 	}
 	
 }
@@ -69,6 +69,7 @@ std::vector<Position> Queen::get_available_positions(IShareBoardData& share, con
 		if (CommonFunctions::position_inside_board(next_position) && share.get_color(next_position) == opponent_color) {
 			availablePositions.push_back(next_position);
 		}
+		next_position = pos;
 
 	}
 	
@@ -85,6 +86,7 @@ std::vector<Position> Queen::get_available_positions(IShareBoardData& share, con
 		if (CommonFunctions::position_inside_board(next_position) && share.get_color(next_position) == opponent_color) {
 			availablePositions.push_back(next_position);
 		}
+		next_position = pos;
 
 	}
 

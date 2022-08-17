@@ -34,3 +34,8 @@ bool Position::isEmpty() const {
 	}
 	return false;
 }
+
+std::ostream& operator<<(std::ostream& out, const Position& pos) {
+	out << "Position: " << pos.col << " , " << pos.row;
+	return out;
+}

@@ -79,26 +79,45 @@ int main(int argc, char** argv) {
 
 				}
 				if (event.type == SDL_MOUSEBUTTONUP) {
+
 					int mouse_position_x_px = event.button.x - BOARD_BORDER_WIDTH;
 					int mouse_position_y_px = event.button.y - BOARD_BORDER_WIDTH;
 					int moving_picture_final_row = mouse_position_y_px / FIELD_HEIGHT + 1;
 					int moving_picture_final_col = mouse_position_x_px / FIELD_WIDTH + 1;
+					
+					std::cout << "initial: " << moving_picture_init_col << ", " << moving_picture_init_row << std::endl;
+					std::cout << "final: " << moving_picture_final_col << ", " << moving_picture_final_row << std::endl;
+					Move next_move = Move(Position(moving_picture_init_col, moving_picture_init_row), Position(moving_picture_final_col, moving_picture_final_row));
+					bool move_acceptance = boardData.validate_move(next_move);
+					std::cout << "validate: " << move_acceptance << std::endl;
 
-				/*	dataManager.validate_move(
-						boardData.get_board(), 
-						Move(
-							new Position(25+(moving_picture_init_col-1)*100, 25 + (moving_picture_init_row-1)*100, moving_picture_init_row, moving_picture_init_col),
-							new Position(25+(moving_picture_final_col-1)*100, 25+(moving_picture_final_row-1)*100, moving_picture_final_row, moving_picture_final_col)));
-							*/
+					if (move_acceptance) {
+
+						int field_next_position_x_px = CommonFunctions::convX_to_pixels(CommonFunctions::convX_to_position(event.button.x));
+						int field_next_position_y_px = CommonFunctions::convY_to_pixels(CommonFunctions::convY_to_position(event.button.y));
+						std::cout << "next: " << field_next_position_x_px << ", " << field_next_position_y_px << std::endl;
+						board.drag_piece(moving_picture_init_row, moving_picture_init_col, field_next_position_x_px, field_next_position_y_px);
+						boardData.move_piece(next_move);
+
+					}
+					else {
+
+						int field_next_position_x_px = CommonFunctions::convX_to_pixels(moving_picture_init_col);
+						int field_next_position_y_px = CommonFunctions::convY_to_pixels(moving_picture_init_row);
+						std::cout << "next: " << field_next_position_x_px << ", " << field_next_position_y_px << std::endl;
+						board.drag_piece(moving_picture_init_row, moving_picture_init_col, field_next_position_x_px, field_next_position_y_px);
+
+					}
+
 					onDrag = false;
 				}
 				if (event.type == SDL_MOUSEMOTION) {
-					int mouse_position_x_px = event.button.x - BOARD_BORDER_WIDTH;
-					int mouse_position_y_px = event.button.y - BOARD_BORDER_WIDTH;
+					int mouse_position_x_px = event.button.x;
+					int mouse_position_y_px = event.button.y ;
 					
 					if (onDrag) {
-						std::cout << mouse_position_y_px << std::endl;
-						std::cout << "row: " << moving_picture_init_row << std::endl;
+						//std::cout << mouse_position_y_px << std::endl;
+						//std::cout << "row: " << moving_picture_init_row << std::endl;
 						board.drag_piece(moving_picture_init_row, moving_picture_init_col, mouse_position_x_px - FIELD_WIDTH/2, mouse_position_y_px - FIELD_WIDTH/2);
 					}
 					

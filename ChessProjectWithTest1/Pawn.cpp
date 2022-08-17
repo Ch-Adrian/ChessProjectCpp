@@ -32,8 +32,12 @@ std::vector<Position> Pawn::get_available_positions(IShareBoardData& share, cons
 	if (share.get_type(pos) != PAWN) {
 		return availablePositions;
 	}
+	
+	std::cout << "pawn color: " << share.get_color(pos) << std::endl;
 
 	if (share.get_color(pos) == WHITE) {
+
+		std::cout << "pawn white" << std::endl;
 		// going forward
 		if (share.get_piece(Position(pos.col, pos.row + 1)) == nullptr) {
 			availablePositions.push_back(Position(pos.col, pos.row + 1));
@@ -67,12 +71,15 @@ std::vector<Position> Pawn::get_available_positions(IShareBoardData& share, cons
 
 	}
 	else if(share.get_color(pos) == BLACK) {
+
+		std::cout << "black pawn" << std::endl;
 		if (share.get_piece(Position(pos.col, pos.row - 1)) == nullptr) {
 			availablePositions.push_back(Position(pos.col, pos.row - 1));
 			if (share.get_piece(Position(pos.col, pos.row - 2)) == nullptr) {
 				availablePositions.push_back(Position(pos.col, pos.row - 2));
 			}
 		}
+		std::cout << "black assault" << std::endl;
 
 		if (share.get_color(Position(pos.col - 1, pos.row - 1)) == WHITE) {
 			availablePositions.push_back(Position(pos.col - 1, pos.row - 1));
@@ -80,6 +87,8 @@ std::vector<Position> Pawn::get_available_positions(IShareBoardData& share, cons
 		if (share.get_color(Position(pos.col + 1, pos.row - 1)) == WHITE) {
 			availablePositions.push_back(Position(pos.col + 1, pos.row - 1));
 		}
+
+		std::cout << "black en passant " << std::endl;
 
 		// en passant
 		if (!share.get_last_pawn_move().isEmpty()) {
@@ -98,6 +107,11 @@ std::vector<Position> Pawn::get_available_positions(IShareBoardData& share, cons
 
 
 
+	}
+
+	std::cout << "Showing available positions for pawn: " << std::endl;
+	for (Position p : availablePositions) {
+		std::cout << "pos: " << p.col << ", " << p.row << std::endl;
 	}
 
 	return availablePositions;

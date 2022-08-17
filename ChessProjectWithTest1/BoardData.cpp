@@ -79,6 +79,7 @@ BoardData::BoardData() {
 			}
 		}
 	}
+
 }
 
 BoardData::~BoardData() {
@@ -99,31 +100,42 @@ const std::map<Position, Piece*> BoardData::get_board() {
 }
 
 Piece* BoardData::get_piece(const Position& pos) {
-	if(pos.col <=8 && pos.col >= 1 && pos.row <=8 && pos.row >= 1)
-		return this->board[pos];
+	if (pos.col <= 8 && pos.col >= 1 && pos.row <= 8 && pos.row >= 1)
+		if(this->boardArray[pos.col][pos.row] != nullptr)
+			return this->boardArray[pos.col][pos.row];
 	return nullptr;
 }
 
 int BoardData::get_type(const Position& pos) {
-	if(pos.col <=8 && pos.col >= 1 && pos.row <=8 && pos.row >= 1)
-		return this->board[pos]->get_type();
+	if (pos.col <= 8 && pos.col >= 1 && pos.row <= 8 && pos.row >= 1)
+		if(this->boardArray[pos.col][pos.row] != nullptr)
+			return this->boardArray[pos.col][pos.row]->get_type();
 	return -1;
 }
 
-int BoardData::get_color(const Position& pos) {
-	if(pos.col <=8 && pos.col >= 1 && pos.row <=8 && pos.row >= 1)
-		return this->board[pos]->get_type();
+ int BoardData::get_color(const Position& pos) {
+	if (pos.col <= 8 && pos.col >= 1 && pos.row <= 8 && pos.row >= 1) {
+		if(this->boardArray[pos.col][pos.row] != nullptr)
+			return this->boardArray[pos.col][pos.row]->get_color();
+	}
 	return -1;
 }
 
 void BoardData::move_piece(const Move& move) {
 	Position from(move.from.col, move.from.row);
 	Position to(move.to.col, move.to.row);
-	this->board[to] = this->board[from];
-	this->board.erase(from);
+	std::cout << "move piece: " << std::endl;
+	std::cout << from << std::endl;
+	std::cout << to << std::endl;
+	//this->board[to] = this->board[from]
+	//this->board.erase(from);
 	
 	boardArray[to.col][to.row] = boardArray[from.col][from.row];
 	boardArray[from.col][from.row] = nullptr;
+
+	if (boardArray[to.col][to.row] != nullptr) {
+		std::cout << "success" << std::endl;
+	}
 
 	if (this->get_type(move.from) == PAWN) {
 		if (abs(move.to.row - move.from.row) == 2) {
@@ -140,17 +152,18 @@ bool BoardData::validate_move( const Move& move) {
 	Piece* moving_piece = this->get_piece(move.from);
 
 	switch (this->get_type(move.from)) {
-	case KING: moving_piece->validate_move(*this, move); moving_piece->validate_move(*this, move);  break;
-		case QUEEN: moving_piece->validate_move(*this, move); break;
-		case LEFT_BISHOP: moving_piece->validate_move(*this, move); 
-		case RIGHT_BISHOP: moving_piece->validate_move(*this, move); break;
-		case LEFT_KNIGHT: moving_piece->validate_move(*this, move); 
-		case RIGHT_KNIGHT: moving_piece->validate_move(*this, move); break;
-		case LEFT_ROOK: moving_piece->validate_move(*this, move); 
-		case RIGHT_ROOK: moving_piece->validate_move(*this, move); break;
-		case PAWN: moving_piece->validate_move(*this, move); break;
+	case KING: return moving_piece->validate_move(*this, move); return moving_piece->validate_move(*this, move);  break;
+		case QUEEN: return moving_piece->validate_move(*this, move); break;
+		case LEFT_BISHOP: return moving_piece->validate_move(*this, move); 
+		case RIGHT_BISHOP: return moving_piece->validate_move(*this, move); break;
+		case LEFT_KNIGHT: return moving_piece->validate_move(*this, move); 
+		case RIGHT_KNIGHT: return moving_piece->validate_move(*this, move); break;
+		case LEFT_ROOK: return moving_piece->validate_move(*this, move); 
+		case RIGHT_ROOK: return moving_piece->validate_move(*this, move); break;
+		case PAWN: return moving_piece->validate_move(*this, move); break;
 		default: return false;
 	}
+	return false;
 }
 
 const Move& BoardData::get_last_pawn_move() {
