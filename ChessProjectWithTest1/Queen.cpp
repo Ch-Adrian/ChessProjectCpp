@@ -93,6 +93,10 @@ std::vector<Position> Queen::get_available_positions(IShareBoardData& share, con
 	return availablePositions;
 }
 
+std::vector<Position> Queen::get_positions_under_attack(IShareBoardData& share, const Position& pos) {
+	return this->get_available_positions(share, pos);
+}
+
 std::string Queen::get_image_source() {
 	return this->image_source;
 }

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "King.h"
 #include "Settings.h"
+#include "CommonFunctions.h"
 
 King::King(int type, int color): Piece(type, color) {
 	if (color == WHITE) {
@@ -49,11 +50,18 @@ std::vector<Position> King::get_available_positions(IShareBoardData& share, cons
 
 	for (int i = 1; i < 9; i++) {
 		for (int j = 1; j < 9; j++) {
-			Piece* piece = (share.get_board()).at(Position(i, j));
-			if (piece != nullptr && piece->get_color() == opponent_color) {
-				for (Position p : piece->get_available_positions(share, Position(i, j))) {
-					enemyMapPositions.insert(Position(i, j));
-					enemyPositions.push_back(Position(i, j));
+			//Piece* piece = (share.get_board()).at(Position(i, j));
+			Piece* piece2 = (share.get_array_board())[i][j];
+			if (piece2 == nullptr || piece2->get_type() == KING) continue;
+			std::cout << "piece found at " << i << ", "<< j << ": " << piece2->get_color() << std::endl;
+
+			if (piece2 != nullptr && piece2->get_color() == opponent_color) {
+				std::cout << "stage2" << std::endl;
+				for (Position p : piece2->get_positions_under_attack(share, Position(i, j))) {
+				std::cout << "stage3" << std::endl;
+					std::cout << p << std::endl;
+					enemyMapPositions.insert(p);
+					enemyPositions.push_back(p);
 				}
 			}
 		}
@@ -62,11 +70,23 @@ std::vector<Position> King::get_available_positions(IShareBoardData& share, cons
 	Position next_position(pos);
 	next_position.col--; next_position.row--;
 
+	std::cout << "King positions: " << std::endl;
+	for (Position p : enemyMapPositions) {
+		std::cout << p << std::endl;
+	}
+
 	for (int i = 0; i < 8; i++) {
-	
-		if (enemyMapPositions.find(next_position) == enemyMapPositions.end()) {
-			if (share.get_piece(next_position) == nullptr ||
-				share.get_color(next_position) == opponent_color) {
+		std::cout << "Next Position king: " << next_position << std::endl;
+
+		bool cond0 = CommonFunctions::position_inside_board(next_position);
+		bool cond1 = enemyMapPositions.find(next_position) == enemyMapPositions.end();
+		bool cond2 = share.get_piece(next_position) == nullptr;
+		bool cond3 = share.get_color(next_position) == opponent_color;
+
+		std::cout << "Condition: " << cond0 << " " << cond1 << " " << cond2 << " " << cond3 << " " << ((cond0 && cond1 && (cond2 || cond3)) ? "true" : "false") << std::endl;
+
+		if(cond0 && cond1){
+			if(cond2 || cond3){
 				availablePositions.push_back(next_position);
 			}
 		}
@@ -81,6 +101,10 @@ std::vector<Position> King::get_available_positions(IShareBoardData& share, cons
 	}
 
 	return availablePositions;
+}
+
+std::vector<Position> King::get_positions_under_attack(IShareBoardData& share, const Position& pos) {
+	return this->get_available_positions(share, pos);
 }
 
 std::string King::get_image_source() {

@@ -45,8 +45,8 @@ std::vector<Position> Bishop::get_available_positions(IShareBoardData& share, co
 	if (share.get_type(pos) != LEFT_BISHOP && share.get_type(pos) != RIGHT_BISHOP) {
 		return availablePositions;
 	}
-	std::cout << "Initial pos bishop: " << std::endl;
-	std::cout << pos << std::endl;
+	//std::cout << "Initial pos bishop: " << std::endl;
+	//std::cout << pos << std::endl;
 	PlayerColor opponent_color = share.get_color(pos) == WHITE ? BLACK : WHITE;
 	Position next_position(pos);
 
@@ -54,25 +54,29 @@ std::vector<Position> Bishop::get_available_positions(IShareBoardData& share, co
 
 		increase_position(next_position, i);
 		while (CommonFunctions::position_inside_board(next_position) && share.get_piece(next_position) == nullptr) {
-			std::cout << next_position << std::endl;
+			//std::cout << next_position << std::endl;
 			availablePositions.push_back(next_position);
 			increase_position(next_position, i);
 		}
 
 		if (CommonFunctions::position_inside_board(next_position) && share.get_color(next_position) == opponent_color) {
-			std::cout << next_position << std::endl;
+			//std::cout << next_position << std::endl;
 			availablePositions.push_back(next_position);
 		}
 		next_position = pos;
 
 	}
 
-	std::cout << "Positions bishop: " << std::endl;
-	for (Position p : availablePositions) {
-		std::cout << p << std::endl;
-	}
+	//std::cout << "Positions bishop: " << std::endl;
+	//for (Position p : availablePositions) {
+		//std::cout << p << std::endl;
+	//}
 
 	return availablePositions;
+}
+
+std::vector<Position> Bishop::get_positions_under_attack(IShareBoardData& share, const Position& pos) {
+	return this->get_available_positions(share, pos);
 }
 
 std::string Bishop::get_image_source() {

@@ -38,7 +38,9 @@ std::vector<Position> Knight::get_available_positions(IShareBoardData& share, co
 	PlayerColor opponent_color = share.get_color(pos) == WHITE ? BLACK : WHITE;
 	Position next_position(pos.col - 2, pos.row - 2);
 
-	for (int i = 0; i < 15; i++){
+	for (int i = 0; i <= 15; i++){
+
+		std::cout << "knight: " << next_position << std::endl;
 
 		if (i % 2) {
 			if (CommonFunctions::position_inside_board(next_position)) {
@@ -49,7 +51,7 @@ std::vector<Position> Knight::get_available_positions(IShareBoardData& share, co
 			}
 		}
 
-		switch (i / 3) {
+		switch (i / 4) {
 		case 0:
 			next_position.col++; break;
 		case 1:
@@ -64,6 +66,10 @@ std::vector<Position> Knight::get_available_positions(IShareBoardData& share, co
 
 	return availablePositions;
 
+}
+
+std::vector<Position> Knight::get_positions_under_attack(IShareBoardData& share, const Position& pos) {
+	return this->get_available_positions(share, pos);
 }
 
 std::string Knight::get_image_source() {

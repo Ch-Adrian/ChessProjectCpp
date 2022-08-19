@@ -8,7 +8,7 @@ class Field
 {
 public:
 
-	Picture picture;
+	Picture* picture;
 	Position position;
 	AbsolutePosition absolutePosition;
 

@@ -19,6 +19,7 @@ public:
 
 	BoardData();
 	virtual const std::map<Position, Piece*> get_board();
+	virtual Piece*** get_array_board();
 	virtual Piece* get_piece(const Position& pos);
 	virtual int get_type(const Position& pos);
 	virtual int get_color(const Position& pos);

@@ -39,8 +39,6 @@ BoardData::BoardData() {
 	black_pieces.push_back(new Knight(RIGHT_KNIGHT, BLACK));
 	black_pieces.push_back(new Rook(RIGHT_ROOK, BLACK));
 
-
-
 	//Pawns
 	for (int i = 0; i < 8; i++) {
 		white_pieces.push_back(new Pawn(PAWN, WHITE));
@@ -51,9 +49,8 @@ BoardData::BoardData() {
 		black_pieces.push_back(new Pawn(PAWN, BLACK));
 		boardArray[i + 1][7] = black_pieces.back();
 	}
-					
+		
 	//Pieces
-
 	boardArray[1][1] = white_pieces.at(LEFT_ROOK);
 	boardArray[2][1] = white_pieces.at(LEFT_KNIGHT);
 	boardArray[3][1] = white_pieces.at(LEFT_BISHOP);
@@ -99,6 +96,10 @@ const std::map<Position, Piece*> BoardData::get_board() {
 	return this->board;
 }
 
+Piece*** BoardData::get_array_board() {
+	return this->boardArray;
+}
+
 Piece* BoardData::get_piece(const Position& pos) {
 	if (pos.col <= 8 && pos.col >= 1 && pos.row <= 8 && pos.row >= 1)
 		if(this->boardArray[pos.col][pos.row] != nullptr)
@@ -107,9 +108,11 @@ Piece* BoardData::get_piece(const Position& pos) {
 }
 
 int BoardData::get_type(const Position& pos) {
-	if (pos.col <= 8 && pos.col >= 1 && pos.row <= 8 && pos.row >= 1)
-		if(this->boardArray[pos.col][pos.row] != nullptr)
+	if (pos.col <= 8 && pos.col >= 1 && pos.row <= 8 && pos.row >= 1) {
+		if (this->boardArray[pos.col][pos.row] != nullptr) {
 			return this->boardArray[pos.col][pos.row]->get_type();
+		}
+	}
 	return -1;
 }
 
@@ -124,9 +127,9 @@ int BoardData::get_type(const Position& pos) {
 void BoardData::move_piece(const Move& move) {
 	Position from(move.from.col, move.from.row);
 	Position to(move.to.col, move.to.row);
-	std::cout << "move piece: " << std::endl;
-	std::cout << from << std::endl;
-	std::cout << to << std::endl;
+	//std::cout << "move piece: " << std::endl;
+	//std::cout << from << std::endl;
+	//std::cout << to << std::endl;
 	//this->board[to] = this->board[from]
 	//this->board.erase(from);
 	
@@ -134,10 +137,12 @@ void BoardData::move_piece(const Move& move) {
 	boardArray[from.col][from.row] = nullptr;
 
 	if (boardArray[to.col][to.row] != nullptr) {
-		std::cout << "success" << std::endl;
+		//std::cout << "success" << std::endl;
 	}
+	
+	if (this->get_type(move.to) == PAWN) {
 
-	if (this->get_type(move.from) == PAWN) {
+		((Pawn*)(this->get_piece(move.to)))->make_first_move();
 		if (abs(move.to.row - move.from.row) == 2) {
 			this->pawn_double_move = move;
 		}
