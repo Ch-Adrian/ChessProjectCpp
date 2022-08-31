@@ -98,7 +98,8 @@ int main(int argc, char** argv) {
 						std::cout << "next: " << field_next_position_x_px << ", " << field_next_position_y_px << std::endl;
 						board.drag_piece(moving_picture_init_row, moving_picture_init_col, field_next_position_x_px, field_next_position_y_px);
 						boardData.move_piece(next_move);
-						board.change_position(next_move.from.col, next_move.from.row, field_next_position_x_px, field_next_position_y_px );
+						board.apply_pieces(boardData.get_board());
+						//board.change_position(next_move.from.col, next_move.from.row, field_next_position_x_px, field_next_position_y_px );
 
 					}
 					else {
@@ -107,7 +108,7 @@ int main(int argc, char** argv) {
 						int field_next_position_y_px = CommonFunctions::convY_to_pixels(moving_picture_init_row);
 						std::cout << "next: " << field_next_position_x_px << ", " << field_next_position_y_px << std::endl;
 						board.drag_piece(moving_picture_init_row, moving_picture_init_col, field_next_position_x_px, field_next_position_y_px);
-
+						
 					}
 
 					onDrag = false;

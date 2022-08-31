@@ -24,13 +24,36 @@ Board::Board(SDL_Renderer* renderer, std::map<Position, Piece*> pieces) {
 		}
 	}
 
-	this->array_of_pieces = new Field*[10];
+	this->array_of_pieces = new Field ** [10];
 	for (int i = 0; i < 10; i++) {
-		this->array_of_pieces[i] = new Field[10];
+		this->array_of_pieces[i] = new Field*[10];
 	}
 
-	for (int i = 0; i < 32; i++) {
-		ordered_picture_pieces.push_back(new Picture());
+	white_pieces.push_back(std::make_pair(new Rook(LEFT_ROOK, WHITE), new Picture()));
+	white_pieces.push_back(std::make_pair(new Knight(LEFT_KNIGHT, WHITE), new Picture()));
+	white_pieces.push_back(std::make_pair(new Bishop(LEFT_BISHOP, WHITE), new Picture()));
+	white_pieces.push_back(std::make_pair(new King(KING, WHITE), new Picture()));
+	white_pieces.push_back(std::make_pair(new Queen(QUEEN, WHITE), new Picture()));
+	white_pieces.push_back(std::make_pair(new Bishop(RIGHT_BISHOP, WHITE), new Picture()));
+	white_pieces.push_back(std::make_pair(new Knight(RIGHT_KNIGHT, WHITE), new Picture()));
+	white_pieces.push_back(std::make_pair(new Rook(RIGHT_ROOK, WHITE), new Picture()));
+
+	black_pieces.push_back(std::make_pair(new Rook(LEFT_ROOK, BLACK), new Picture()));
+	black_pieces.push_back(std::make_pair(new Knight(LEFT_KNIGHT, BLACK), new Picture()));
+	black_pieces.push_back(std::make_pair(new Bishop(LEFT_BISHOP, BLACK), new Picture()));
+	black_pieces.push_back(std::make_pair(new King(KING, BLACK), new Picture()));
+	black_pieces.push_back(std::make_pair(new Queen(QUEEN, BLACK), new Picture()));
+	black_pieces.push_back(std::make_pair(new Bishop(RIGHT_BISHOP, BLACK), new Picture()));
+	black_pieces.push_back(std::make_pair(new Knight(RIGHT_KNIGHT, BLACK), new Picture()));
+	black_pieces.push_back(std::make_pair(new Rook(RIGHT_ROOK, BLACK), new Picture()));
+
+	//Pawns
+	for (int i = 0; i < 8; i++) {
+		white_pieces.push_back(std::make_pair(new Pawn(PAWN, WHITE), new Picture()));
+	}
+
+	for (int i = 0; i < 8; i++) {
+		black_pieces.push_back(std::make_pair(new Pawn(PAWN, BLACK), new Picture());
 	}
 	
 	for (int w = -75; w < BOARD_WIDTH; w += 100) {
@@ -96,21 +119,22 @@ Board::Board(SDL_Renderer* renderer, std::map<Position, Piece*> pieces) {
 	}
 	*/
 
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			this->array_of_pieces[i][j].picture = nullptr;
-		}
-	}
-
 	for (auto p : pieces) {
 
 		int x = p.first.col;
 		int y = p.first.row;
-		if (p.second->get_id() < this->ordered_picture_pieces.size()) {
-			this->array_of_pieces[x][y].picture = this->ordered_picture_pieces[p.second->get_id()];
-		}
-		else {
-			//TODO
+		this->array_of_pieces[x][y].picture = new Picture();
+
+		switch (p.second->get_type()) {
+			case LEFT_ROOK: break;
+			case LEFT_KNIGHT: break;
+			case LEFT_BISHOP: break;
+			case KING: break;
+			case QUEEN: break;
+			case RIGHT_BISHOP: break;
+			case RIGHT_KNIGHT: break;
+			case RIGHT_ROOK: break;
+			case PAWN: break;
 		}
 	
 		this->array_of_pieces[x][y].picture->init(p.second->get_image_source(), renderer);
@@ -121,28 +145,23 @@ Board::Board(SDL_Renderer* renderer, std::map<Position, Piece*> pieces) {
 
 }
 
-void Board::apply_pieces(std::map<Position, Piece*> pieces) {
+void Board::apply_pieces() {
 
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			this->array_of_pieces[i][j].picture = nullptr;
-		}
-	}
 
-	for (auto p : pieces) {
 
-		int x = p.first.col;
-		int y = p.first.row;
-		if (p.second->get_id() < this->ordered_picture_pieces.size()) {
-			this->array_of_pieces[x][y].picture = this->ordered_picture_pieces[p.second->get_id()];
-		}
-		else {
-			//TODO
-		}
-		std::cout << "apply_pieces: " << x << ", " << y << " " << 25 + (x - 1) * 100 << std::endl;
-		this->array_of_pieces[x][y].picture->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, FIELD_WIDTH, FIELD_HEIGHT);
+}
 
-	}
+void Board::change_position(int which_col, int which_row, int to_x_px, int to_y_px) {
+
+	int x = (int)(to_x_px / 100);
+	int y = (int)(to_y_px / 100);
+	if (to_x_px > 0) x++;
+	if (to_y_px > 0) y++;
+
+	//en passant
+
+	this->array_of_pieces[x][y].picture = this->array_of_pieces[which_col][which_row].picture;
+	this->array_of_pieces[which_col][which_row].picture = nullptr;
 
 }
 
@@ -161,15 +180,11 @@ void Board::render_board() {
 				this->array_of_pieces[i][j].picture->render(renderer);
 		}
 	}
-
 }
 
 void Board::drag_piece(int row, int col, int destination_x, int destination_y) {
-	if (this->array_of_pieces[col][row].picture == nullptr) {
-		return;
-	}
 	this->array_of_pieces[col][row].picture->setDestinationRect(destination_x, destination_y, FIELD_WIDTH, FIELD_HEIGHT);
-	//this->array_of_pieces[col][row].picture->render(renderer);
+	this->array_of_pieces[col][row].picture->render(renderer);
 }
 
 Board::~Board() {

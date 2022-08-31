@@ -62,13 +62,19 @@ std::vector<Position> Pawn::get_available_positions(IShareBoardData& share, cons
 		}
 
 		// en passant
+		std::cout << "en passant " << std::endl;
 		if (!share.get_last_pawn_move().isEmpty()) {
+			std::cout << "last pawn move is not empty " << std::endl;
 			if (share.get_color(share.get_last_pawn_move().to) == BLACK) {
+				std::cout << "get color: black " << std::endl;
 				if (share.get_last_pawn_move().to.row == pos.row) {
-					Position next_position(share.get_last_pawn_move().to.col, share.get_last_pawn_move().to.row - 1);
+					std::cout << "rows are equal " << std::endl;
+					Position next_position(share.get_last_pawn_move().to.col, share.get_last_pawn_move().to.row + 1);
 					if (share.get_piece(next_position) == nullptr) {
+						std::cout << "next position is accessible" << std::endl;
 						if (share.get_last_pawn_move().to.col - 1 == pos.col || 
 							share.get_last_pawn_move().to.col + 1 == pos.col) {
+							std::cout << "columns differ by one" << std::endl;
 							availablePositions.push_back(next_position);
 						}
 					}
@@ -105,7 +111,7 @@ std::vector<Position> Pawn::get_available_positions(IShareBoardData& share, cons
 		if (!share.get_last_pawn_move().isEmpty()) {
 			if (share.get_color(share.get_last_pawn_move().to) == WHITE) {
 				if (share.get_last_pawn_move().to.row == pos.row) {
-					Position next_position(share.get_last_pawn_move().to.col, share.get_last_pawn_move().to.row + 1);
+					Position next_position(share.get_last_pawn_move().to.col, share.get_last_pawn_move().to.row - 1);
 					if (share.get_piece(next_position) == nullptr) {
 						if (share.get_last_pawn_move().to.col - 1 == pos.col || 
 							share.get_last_pawn_move().to.col + 1 == pos.col) {

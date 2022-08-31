@@ -29,6 +29,7 @@ bool Knight::validate_move(IShareBoardData& share, const Move& move) {
 }
 
 std::vector<Position> Knight::get_available_positions(IShareBoardData& share, const Position& pos) {
+
 	std::vector<Position> availablePositions;
 
 	if (share.get_type(pos) != LEFT_KNIGHT && share.get_type(pos) != RIGHT_KNIGHT) {

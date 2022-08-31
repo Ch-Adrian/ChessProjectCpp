@@ -13,3 +13,11 @@ int Piece::get_type() {
 bool Piece::get_color() {
 	return this->color;
 }
+
+int Piece::get_id() {
+	return this->id;
+}
+
+void Piece::set_id(int id) {
+	this->id = id;
+}

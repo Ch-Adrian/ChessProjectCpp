@@ -8,6 +8,7 @@ class Piece
 private:
 	int type;
 	bool color;
+	int id;
 
 public:
 
@@ -21,5 +22,8 @@ public:
 	//virtual bool validate_move(Position* from, Position* to);
 	int get_type();
 	bool get_color();
+	int get_id();
+	void set_id(int id);
+
 };
 

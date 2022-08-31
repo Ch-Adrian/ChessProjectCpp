@@ -6,6 +6,7 @@
 
 class BoardData: public IShareBoardData
 {
+
 private:
 	std::vector<Piece*> white_pieces;
 	std::vector<Piece*> black_pieces;

@@ -49,6 +49,16 @@ BoardData::BoardData() {
 		black_pieces.push_back(new Pawn(PAWN, BLACK));
 		boardArray[i + 1][7] = black_pieces.back();
 	}
+
+	for (int i = 0; i < white_pieces.size(); i++) {
+		white_pieces[i]->set_id(i);
+	}
+
+	for (int i = 0; i < black_pieces.size(); i++) {
+		black_pieces[i]->set_id(i + white_pieces.size());
+	}
+
+
 		
 	//Pieces
 	boardArray[1][1] = white_pieces.at(LEFT_ROOK);
@@ -127,29 +137,47 @@ int BoardData::get_type(const Position& pos) {
 void BoardData::move_piece(const Move& move) {
 	Position from(move.from.col, move.from.row);
 	Position to(move.to.col, move.to.row);
-	//std::cout << "move piece: " << std::endl;
-	//std::cout << from << std::endl;
-	//std::cout << to << std::endl;
-	//this->board[to] = this->board[from]
-	//this->board.erase(from);
 	
-	boardArray[to.col][to.row] = boardArray[from.col][from.row];
-	boardArray[from.col][from.row] = nullptr;
+	if (this->get_type(move.from) == PAWN) {
 
-	if (boardArray[to.col][to.row] != nullptr) {
-		//std::cout << "success" << std::endl;
-	}
-	
-	if (this->get_type(move.to) == PAWN) {
+		((Pawn*)(this->get_piece(move.from)))->make_first_move();
 
-		((Pawn*)(this->get_piece(move.to)))->make_first_move();
+		// double squre move
 		if (abs(move.to.row - move.from.row) == 2) {
 			this->pawn_double_move = move;
 		}
+
+		//en passant
+		if (abs(move.to.col - move.from.col) == 1 &&
+			
+			this->get_piece(move.to) == nullptr) {
+			if (this->get_color(move.from) == WHITE) {
+				Piece* enemy = this->get_piece(Position(move.to.col, move.from.row));
+				if (enemy != nullptr) {
+					if (enemy->get_color() == BLACK &&
+						enemy->get_type() == PAWN) {
+						std::cout << "en passant succeed" << std::endl;
+						boardArray[move.to.col][move.from.row] = nullptr;
+						board.erase(Position(move.to.col, move.from.row));
+					}
+				}
+			}
+			else {
+
+			}
+
+		}
 	}
 	else {
-		this->pawn_double_move = Move();
+		if(!this->pawn_double_move.isEmpty())
+			this->pawn_double_move = Move();
 	}
+
+	boardArray[to.col][to.row] = boardArray[from.col][from.row];
+	boardArray[from.col][from.row] = nullptr;
+	board.erase(Position(to));
+	board.insert({ Position(to), boardArray[to.col][to.row] });
+	board.erase(Position(from));
 
 }
 
