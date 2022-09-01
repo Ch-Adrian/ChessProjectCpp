@@ -172,6 +172,27 @@ void Board::drag_piece(int row, int col, int destination_x, int destination_y) {
 	//this->array_of_pieces[col][row].picture->render(renderer);
 }
 
+void Board::mark_accesible_fields(std::vector<Position> available_positions) {
+
+	for (Position p : available_positions) {
+		if (this->array_of_pieces[p.col][p.row].picture != nullptr) {
+			this->array_of_fields[p.col][p.row].picture->setColor(200, 0, 0);
+		}
+		else {
+			this->array_of_fields[p.col][p.row].picture->setColor(50, 150, 50);
+		}
+	}
+		
+}
+
+void Board::clean_light() {
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			this->array_of_fields[i][j].picture->setColor(255, 255, 255);
+		}
+	}
+}
+
 Board::~Board() {
 
 	for (int i = 0; i < 10; i++) {

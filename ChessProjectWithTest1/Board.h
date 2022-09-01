@@ -21,5 +21,6 @@ public:
 	void render_board();
 	void drag_piece(int row, int col, int destination_x, int destination_y);
 	void apply_pieces(std::map<Position, Piece*> pieces);
-
+	void mark_accesible_fields(std::vector<Position> available_positions);
+	void clean_light();
 };

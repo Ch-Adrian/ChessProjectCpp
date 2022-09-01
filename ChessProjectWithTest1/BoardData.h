@@ -29,8 +29,8 @@ public:
 	void move_piece(const Move& move);
 	bool validate_move(const Move& move);
 
-	//TODO
-	std::vector<Position> get_all_available_positions(int color);
+	std::vector<Position> get_all_available_positions(const Position& pos);
+
 	~BoardData();
 };
 

@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
 					moving_picture_init_row = mouse_position_y_px / FIELD_HEIGHT + 1;
 
 					std::cout << mouse_position_x_px << std::endl;
-					
+					board.mark_accesible_fields(boardData.get_all_available_positions(Position(moving_picture_init_col, moving_picture_init_row)));
 					onDrag = true;
 
 				}
@@ -112,6 +112,7 @@ int main(int argc, char** argv) {
 					}
 
 					onDrag = false;
+					board.clean_light();
 				}
 				if (event.type == SDL_MOUSEMOTION) {
 					int mouse_position_x_px = event.button.x;

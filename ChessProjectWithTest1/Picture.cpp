@@ -107,6 +107,7 @@ void Picture::render(SDL_Renderer* windowRenderer) {
 		throw NullPointerException("Texture Source has not been initialized!");
 	if (this->destinationRect == nullptr)
 		throw NullPointerException("Texture destination has not been initialized!");
+	//SDL_SetTextureColorMod(this->texture, 50, 200, 50);
 	//SDL_SetTextureBlendMode(this->texture, SDL_BLENDMODE_NONE);
 	//SDL_RenderCopyEx(windowRenderer, this->texture, this->sourceRect,
 		//this->destinationRect, this->angle, this->rotationCenter, this->flip);

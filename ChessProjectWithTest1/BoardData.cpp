@@ -184,19 +184,21 @@ void BoardData::move_piece(const Move& move) {
 bool BoardData::validate_move( const Move& move) {
 	Piece* moving_piece = this->get_piece(move.from);
 
-	switch (this->get_type(move.from)) {
-	case KING: return moving_piece->validate_move(*this, move); return moving_piece->validate_move(*this, move);  break;
-		case QUEEN: return moving_piece->validate_move(*this, move); break;
-		case LEFT_BISHOP: return moving_piece->validate_move(*this, move); 
-		case RIGHT_BISHOP: return moving_piece->validate_move(*this, move); break;
-		case LEFT_KNIGHT: return moving_piece->validate_move(*this, move); 
-		case RIGHT_KNIGHT: return moving_piece->validate_move(*this, move); break;
-		case LEFT_ROOK: return moving_piece->validate_move(*this, move); 
-		case RIGHT_ROOK: return moving_piece->validate_move(*this, move); break;
-		case PAWN: return moving_piece->validate_move(*this, move); break;
-		default: return false;
-	}
-	return false;
+	if (moving_piece == nullptr) return false;
+	return moving_piece->validate_move(*this, move);
+
+}
+
+std::vector<Position> BoardData::get_all_available_positions(const Position& pos) {
+	Piece* moving_piece = this->get_piece(pos);
+
+	std::vector<Position> available_positions;
+		
+	if (moving_piece == nullptr) return available_positions;
+	available_positions = moving_piece->get_available_positions(*this, pos);
+
+	return available_positions;
+	
 }
 
 const Move& BoardData::get_last_pawn_move() {
