@@ -4,6 +4,7 @@
 Piece::Piece(int type, bool color) {
 	this->color = color;
 	this->type = type;
+	this->id = -1;
 }
 
 int Piece::get_type() {

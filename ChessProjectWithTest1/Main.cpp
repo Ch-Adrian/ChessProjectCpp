@@ -42,16 +42,39 @@ int main(int argc, char** argv) {
 		BoardData boardData;
 		Board board(mainWindow.getRenderer(), boardData.get_board());
 		ManageData dataManager;
-		/*
-		Picture picture;
-		picture.init("resources/black_pawn.bmp", mainWindow.getRenderer());
-		picture.setSourceRect(0, 0, 500, 500);
-		picture.setDestinationRect(0, 0, 100, 100);
+		
+		Picture picture_black_queen;
+		picture_black_queen.init("resources/black_queen.bmp", mainWindow.getRenderer());
+		picture_black_queen.setSourceRect(0, 0, 500, 500);
+		picture_black_queen.setDestinationRect(0, 0, 100, 100);
+
+		Picture picture_white_queen;
+		picture_white_queen.init("resources/white_queen.bmp", mainWindow.getRenderer());
+		picture_white_queen.setSourceRect(0, 0, 500, 500);
+		picture_white_queen.setDestinationRect(0, 0, 100, 100);	
+
+		Picture picture_black_knight;
+		picture_black_knight.init("resources/black_knight.bmp", mainWindow.getRenderer());
+		picture_black_knight.setSourceRect(0, 0, 500, 500);
+		picture_black_knight.setDestinationRect(100, 0, 100, 100);
+
+		Picture picture_white_knight;
+		picture_white_knight.init("resources/white_knight.bmp", mainWindow.getRenderer());
+		picture_white_knight.setSourceRect(0, 0, 500, 500);
+		picture_white_knight.setDestinationRect(100, 0, 100, 100);	
+
+
+
 		Picture picture_background;
 		picture_background.init("resources/black_field.bmp", mainWindow.getRenderer());
 		picture_background.setSourceRect(0, 0, 100, 100);
 		picture_background.setDestinationRect(0, 0, 100, 100);
-		*/
+		
+		Picture picture_background2;
+		picture_background2.init("resources/black_field.bmp", mainWindow.getRenderer());
+		picture_background2.setSourceRect(0, 0, 100, 100);
+		picture_background2.setDestinationRect(100, 0, 100, 100);
+		
 
 		bool quit = false;
 		SDL_Event event;
@@ -59,8 +82,23 @@ int main(int argc, char** argv) {
 		int moving_picture_init_col = -1;
 		int moving_picture_init_row = -1;
 		Move* mv = new Move(Position(1, 1), Position(2, 2));
-
 		delete mv;
+
+		SDL_Rect originViewPort;
+		originViewPort.x = 0;
+		originViewPort.y = 0;
+		originViewPort.w = BOARD_WIDTH;
+		originViewPort.h = BOARD_HEIGHT;
+
+		bool show_middleViewPort = false;
+		SDL_Rect middleViewPort;
+		bool exchange_color = false;
+		middleViewPort.x = (BOARD_WIDTH - FIELD_WIDTH -50) / 2;
+		middleViewPort.y = (BOARD_HEIGHT - FIELD_HEIGHT) / 2;
+		middleViewPort.h = FIELD_HEIGHT;
+		middleViewPort.w = 2 * FIELD_WIDTH;
+		//SDL_RenderCopy(mainWindow.getRenderer(), 
+
 		while (!quit) {
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {
@@ -74,8 +112,14 @@ int main(int argc, char** argv) {
 					moving_picture_init_row = mouse_position_y_px / FIELD_HEIGHT + 1;
 
 					std::cout << mouse_position_x_px << std::endl;
-					board.mark_accesible_fields(boardData.get_all_available_positions(Position(moving_picture_init_col, moving_picture_init_row)));
-					onDrag = true;
+
+					if (show_middleViewPort) {
+
+					}
+					else {
+						board.mark_accesible_fields(boardData.get_all_available_positions(Position(moving_picture_init_col, moving_picture_init_row)));
+						onDrag = true;
+					}
 
 				}
 				if (event.type == SDL_MOUSEBUTTONUP) {
@@ -85,6 +129,25 @@ int main(int argc, char** argv) {
 					int moving_picture_final_row = mouse_position_y_px / FIELD_HEIGHT + 1;
 					int moving_picture_final_col = mouse_position_x_px / FIELD_WIDTH + 1;
 					
+					if (show_middleViewPort) {
+						
+						if (mouse_position_x_px >= middleViewPort.x && mouse_position_x_px <= middleViewPort.x + 2 * FIELD_WIDTH) {
+							if (mouse_position_y_px >= middleViewPort.y && mouse_position_y_px <= middleViewPort.y + FIELD_HEIGHT) {
+								show_middleViewPort = false;
+								if (mouse_position_x_px < middleViewPort.x + FIELD_WIDTH) {
+									boardData.exchange_pawn(QUEEN, exchange_color);
+								}
+								else {
+									boardData.exchange_pawn(LEFT_KNIGHT, exchange_color);
+
+								}
+								board.apply_pieces(boardData.get_board());
+							}
+						}
+						
+						continue;
+					}
+
 					std::cout << "initial: " << moving_picture_init_col << ", " << moving_picture_init_row << std::endl;
 					std::cout << "final: " << moving_picture_final_col << ", " << moving_picture_final_row << std::endl;
 					Move next_move = Move(Position(moving_picture_init_col, moving_picture_init_row), Position(moving_picture_final_col, moving_picture_final_row));
@@ -97,10 +160,17 @@ int main(int argc, char** argv) {
 						int field_next_position_y_px = CommonFunctions::convY_to_pixels(CommonFunctions::convY_to_position(event.button.y));
 						std::cout << "next: " << field_next_position_x_px << ", " << field_next_position_y_px << std::endl;
 						board.drag_piece(moving_picture_init_row, moving_picture_init_col, field_next_position_x_px, field_next_position_y_px);
-						boardData.move_piece(next_move);
+						int ret_val = boardData.move_piece(next_move);
 						board.apply_pieces(boardData.get_board());
 						//board.change_position(next_move.from.col, next_move.from.row, field_next_position_x_px, field_next_position_y_px );
-
+						if (ret_val == PAWN_TOP) {
+							show_middleViewPort = true;
+							exchange_color = true;
+						}
+						else if (ret_val == PAWN_BOTTOM) {
+							exchange_color = false;
+							show_middleViewPort = true;
+						}
 					}
 					else {
 
@@ -117,6 +187,7 @@ int main(int argc, char** argv) {
 				if (event.type == SDL_MOUSEMOTION) {
 					int mouse_position_x_px = event.button.x;
 					int mouse_position_y_px = event.button.y ;
+					SDL_RenderClear(mainWindow.getRenderer());
 					
 					if (onDrag) {
 						//std::cout << mouse_position_y_px << std::endl;
@@ -132,8 +203,22 @@ int main(int argc, char** argv) {
 				SDL_SetRenderDrawColor(mainWindow.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_RenderClear(mainWindow.getRenderer());
 
+				SDL_RenderSetViewport(mainWindow.getRenderer(), &originViewPort);
 				board.render_board();
 
+				if (show_middleViewPort) {
+					SDL_RenderSetViewport(mainWindow.getRenderer(), &middleViewPort);
+					picture_background.render(mainWindow.getRenderer());
+					picture_background2.render(mainWindow.getRenderer());
+					if (exchange_color == BLACK) {
+						picture_black_knight.render(mainWindow.getRenderer());
+						picture_black_queen.render(mainWindow.getRenderer());
+					}
+					else {
+						picture_white_queen.render(mainWindow.getRenderer());
+						picture_white_knight.render(mainWindow.getRenderer());
+					}
+				}
 				//picture_background.render(mainWindow.getRenderer());
 				//picture.render(mainWindow.getRenderer());
 

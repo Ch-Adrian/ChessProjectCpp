@@ -133,11 +133,19 @@ void Board::apply_pieces(std::map<Position, Piece*> pieces) {
 
 		int x = p.first.col;
 		int y = p.first.row;
-		if (p.second->get_id() < this->ordered_picture_pieces.size()) {
+		if (p.second->get_id() != -1 && p.second->get_id() < this->ordered_picture_pieces.size()) {
 			this->array_of_pieces[x][y].picture = this->ordered_picture_pieces[p.second->get_id()];
 		}
+		else if(p.second->get_id() != -1){
+			this->ordered_picture_pieces.push_back(new Picture());
+			this->ordered_picture_pieces.back()->init(p.second->get_image_source(), renderer);
+			this->ordered_picture_pieces.back()->setSourceRect(0, 0, FIELD_WIDTH, FIELD_HEIGHT);
+			this->ordered_picture_pieces.back()->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, FIELD_WIDTH, FIELD_HEIGHT);
+			this->array_of_pieces[x][y].picture = this->ordered_picture_pieces[p.second->get_id()];
+
+		}
 		else {
-			//TODO
+
 		}
 		std::cout << "apply_pieces: " << x << ", " << y << " " << 25 + (x - 1) * 100 << std::endl;
 		this->array_of_pieces[x][y].picture->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, FIELD_WIDTH, FIELD_HEIGHT);

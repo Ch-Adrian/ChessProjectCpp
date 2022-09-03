@@ -96,6 +96,11 @@ BoardData::~BoardData() {
 	for (Piece* black : black_pieces) {
 		delete black;
 	}
+
+	for (Piece* addit : additional_pieces) {
+		delete addit;
+	}
+
 	for (int i = 0; i < 9; i++) {
 		delete[] boardArray[i];
 	}
@@ -134,10 +139,11 @@ int BoardData::get_type(const Position& pos) {
 	return -1;
 }
 
-void BoardData::move_piece(const Move& move) {
+int BoardData::move_piece(const Move& move) {
 	Position from(move.from.col, move.from.row);
 	Position to(move.to.col, move.to.row);
 	
+	int return_value = 0;
 	if (this->get_type(move.from) == PAWN) {
 
 		((Pawn*)(this->get_piece(move.from)))->make_first_move();
@@ -149,7 +155,6 @@ void BoardData::move_piece(const Move& move) {
 
 		//en passant
 		if (abs(move.to.col - move.from.col) == 1 &&
-			
 			this->get_piece(move.to) == nullptr) {
 			if (this->get_color(move.from) == WHITE) {
 				Piece* enemy = this->get_piece(Position(move.to.col, move.from.row));
@@ -162,11 +167,30 @@ void BoardData::move_piece(const Move& move) {
 					}
 				}
 			}
-			else {
+			else if(this->get_color(move.from) == BLACK) {
+				Piece* enemy = this->get_piece(Position(move.to.col, move.from.row));
+				if (enemy != nullptr) {
+					if (enemy->get_color() == WHITE &&
+						enemy->get_type() == PAWN) {
+						std::cout << "en passant succeed" << std::endl;
+						boardArray[move.to.col][move.from.row] = nullptr;
+						board.erase(Position(move.to.col, move.from.row));
+					}
+				}
 
 			}
 
 		}
+
+		if (this->get_color(move.from) == BLACK && move.to.row == 1) {
+			this->edge_pawn_position = move.to;
+			return_value = PAWN_TOP;
+		}
+		else if (this->get_color(move.from) == WHITE && move.to.row == 8) {
+			this->edge_pawn_position = move.to;
+			return_value = PAWN_BOTTOM;
+		}
+
 	}
 	else {
 		if(!this->pawn_double_move.isEmpty())
@@ -178,6 +202,34 @@ void BoardData::move_piece(const Move& move) {
 	board.erase(Position(to));
 	board.insert({ Position(to), boardArray[to.col][to.row] });
 	board.erase(Position(from));
+
+	return return_value;
+
+}
+
+void BoardData::exchange_pawn(int type, bool color) {
+	
+	switch (type) {
+	case QUEEN: 
+			additional_pieces.push_back(new Queen(QUEEN, color));
+		break;
+	case LEFT_KNIGHT:
+			additional_pieces.push_back(new Knight(LEFT_KNIGHT, color));
+		break;
+	case RIGHT_KNIGHT:
+			additional_pieces.push_back(new Knight(RIGHT_KNIGHT, color));
+		break;
+	default:
+		return;
+	}
+
+	for (int i = 0; i < additional_pieces.size(); i++) {
+		additional_pieces[i]->set_id(black_pieces.back()->get_id() + i + 1);
+	}
+	
+	this->boardArray[this->edge_pawn_position.col][this->edge_pawn_position.row] = additional_pieces.back();
+	this->board.erase(Position(edge_pawn_position));
+	this->board.insert({ Position(edge_pawn_position), additional_pieces.back() });
 
 }
 

@@ -12,4 +12,6 @@ enum PieceType { LEFT_ROOK, LEFT_KNIGHT, LEFT_BISHOP,
 
 enum PlayerColor { WHITE = false, BLACK = true};
 
+enum PawnSide{ PAWN_BOTTOM = 1, PAWN_TOP = 2};
+
 
