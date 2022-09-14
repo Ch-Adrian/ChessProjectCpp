@@ -117,24 +117,34 @@ Piece*** BoardData::get_array_board() {
 
 Piece* BoardData::get_piece(const Position& pos) {
 	if (pos.col <= 8 && pos.col >= 1 && pos.row <= 8 && pos.row >= 1)
-		if(this->boardArray[pos.col][pos.row] != nullptr)
-			return this->boardArray[pos.col][pos.row];
+		if (this->board.find(Position(pos.col, pos.row)) != this->board.end())
+			return this->board.at(Position(pos.col, pos.row));
+
+		//if (this->boardArray[pos.col][pos.row] != nullptr)
+			//return nullptr;
+			//return this->boardArray[pos.col][pos.row];
 	return nullptr;
 }
 
 int BoardData::get_type(const Position& pos) {
 	if (pos.col <= 8 && pos.col >= 1 && pos.row <= 8 && pos.row >= 1) {
-		if (this->boardArray[pos.col][pos.row] != nullptr) {
-			return this->boardArray[pos.col][pos.row]->get_type();
-		}
+		if (this->board.find(Position(pos.col, pos.row)) != this->board.end())
+			return this->board.at(Position(pos.col, pos.row))->get_type();
+
+		//if (this->boardArray[pos.col][pos.row] != nullptr) {
+			//return this->boardArray[pos.col][pos.row]->get_type();
+		//}
 	}
 	return -1;
 }
 
  int BoardData::get_color(const Position& pos) {
 	if (pos.col <= 8 && pos.col >= 1 && pos.row <= 8 && pos.row >= 1) {
-		if(this->boardArray[pos.col][pos.row] != nullptr)
-			return this->boardArray[pos.col][pos.row]->get_color();
+		if (this->board.find(Position(pos.col, pos.row)) != this->board.end())
+			return this->board.at(Position(pos.col, pos.row))->get_color();
+
+		//if(this->boardArray[pos.col][pos.row] != nullptr)
+			//return this->boardArray[pos.col][pos.row]->get_color();
 	}
 	return -1;
 }

@@ -41,7 +41,6 @@ int main(int argc, char** argv) {
 		Window mainWindow{ "Chess", BOARD_WIDTH, BOARD_HEIGHT };
 		BoardData boardData;
 		Board board(mainWindow.getRenderer(), boardData.get_board());
-		ManageData dataManager;
 		
 		Picture picture_black_queen;
 		picture_black_queen.init("resources/black_queen.bmp", mainWindow.getRenderer());

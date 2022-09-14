@@ -1,0 +1,14 @@
+Chess project requires particular modifications as follows:
+1. Constatnt variables related to certain class are in separate file.
+2. There exists separate class with global functions
+		( it looks like author couldn't manage space for it somewhere
+			in appriopriate class)
+3. There is not applied any architectural pattern.
+4. Implementation doesn't take advantage of modern C++.
+5. BoardData class is too big
+6. There is lack of identification of moves ( first of all program needs to 
+		identify move and then make actions accordingly to that knowledge)
+7. Get rid of id.
+8. too much data stored.
+9. Bridge pattern design could be applied here.
+10. Extract extrinsic values from objects ( useful flyweight design pattern ).
