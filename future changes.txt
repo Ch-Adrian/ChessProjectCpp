@@ -12,3 +12,8 @@ Chess project requires particular modifications as follows:
 8. too much data stored.
 9. Bridge pattern design could be applied here.
 10. Extract extrinsic values from objects ( useful flyweight design pattern ).
+
+11. Command pattern to manage moving pieces.
+12. Maybe Guice technology will be found useful.
+13. MVC with MVP patterns.
+14. Bindings using Observer pattern.
