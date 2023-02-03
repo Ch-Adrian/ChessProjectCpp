@@ -67,6 +67,9 @@
     <ClCompile Include="Bishop.cpp">
       <Filter>sources\pieces</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationView.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SdlIncludes.h">
@@ -138,6 +141,9 @@
     </ClInclude>
     <ClInclude Include="Pawn.h">
       <Filter>headers\pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationView.h">
+      <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

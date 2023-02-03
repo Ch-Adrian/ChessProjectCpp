@@ -8,9 +8,12 @@
 #include "Pawn.h"
 #include "Rook.h"
 #include "Knight.h"
+#include "ApplicationView.h"
 #include <math.h>
 
-Board::Board(SDL_Renderer* renderer, std::map<Position, Piece*> pieces) {
+Board::Board(SDL_Renderer* renderer) {
+
+	std::map<Position, Piece*> pieces = this->boardData.get_board();
 
 	this->renderer = renderer;
 
@@ -33,8 +36,8 @@ Board::Board(SDL_Renderer* renderer, std::map<Position, Piece*> pieces) {
 		ordered_picture_pieces.push_back(new Picture());
 	}
 	
-	for (int w = -75; w < BOARD_WIDTH; w += 100) {
-		for (int h = -75; h < BOARD_HEIGHT; h += 100) {
+	for (int w = -75; w < ApplicationView::BOARD_WIDTH; w += 100) {
+		for (int h = -75; h < ApplicationView::BOARD_HEIGHT; h += 100) {
 
 			int x = (int)(w / 100);
 			int y = (int)(h / 100);
@@ -72,8 +75,8 @@ Board::Board(SDL_Renderer* renderer, std::map<Position, Piece*> pieces) {
 			else {
 				this->array_of_fields[x][y].picture->init("resources/white_field.bmp", renderer);
 			}
-			this->array_of_fields[x][y].picture->setSourceRect(0, 0, FIELD_WIDTH, FIELD_HEIGHT);
-			this->array_of_fields[x][y].picture->setDestinationRect(w, h, FIELD_WIDTH, FIELD_HEIGHT);
+			this->array_of_fields[x][y].picture->setSourceRect(0, 0, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
+			this->array_of_fields[x][y].picture->setDestinationRect(w, h, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
 
 			c = !c;
 		}
@@ -114,8 +117,8 @@ Board::Board(SDL_Renderer* renderer, std::map<Position, Piece*> pieces) {
 		}
 	
 		this->array_of_pieces[x][y].picture->init(p.second->get_image_source(), renderer);
-		this->array_of_pieces[x][y].picture->setSourceRect(0, 0, FIELD_WIDTH, FIELD_HEIGHT);
-		this->array_of_pieces[x][y].picture->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, FIELD_WIDTH, FIELD_HEIGHT);
+		this->array_of_pieces[x][y].picture->setSourceRect(0, 0, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
+		this->array_of_pieces[x][y].picture->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
 		
 	}
 
@@ -139,8 +142,8 @@ void Board::apply_pieces(std::map<Position, Piece*> pieces) {
 		else if(p.second->get_id() != -1){
 			this->ordered_picture_pieces.push_back(new Picture());
 			this->ordered_picture_pieces.back()->init(p.second->get_image_source(), renderer);
-			this->ordered_picture_pieces.back()->setSourceRect(0, 0, FIELD_WIDTH, FIELD_HEIGHT);
-			this->ordered_picture_pieces.back()->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, FIELD_WIDTH, FIELD_HEIGHT);
+			this->ordered_picture_pieces.back()->setSourceRect(0, 0, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
+			this->ordered_picture_pieces.back()->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
 			this->array_of_pieces[x][y].picture = this->ordered_picture_pieces[p.second->get_id()];
 
 		}
@@ -148,7 +151,7 @@ void Board::apply_pieces(std::map<Position, Piece*> pieces) {
 
 		}
 		std::cout << "apply_pieces: " << x << ", " << y << " " << 25 + (x - 1) * 100 << std::endl;
-		this->array_of_pieces[x][y].picture->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, FIELD_WIDTH, FIELD_HEIGHT);
+		this->array_of_pieces[x][y].picture->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
 
 	}
 
@@ -176,7 +179,7 @@ void Board::drag_piece(int row, int col, int destination_x, int destination_y) {
 	if (this->array_of_pieces[col][row].picture == nullptr) {
 		return;
 	}
-	this->array_of_pieces[col][row].picture->setDestinationRect(destination_x, destination_y, FIELD_WIDTH, FIELD_HEIGHT);
+	this->array_of_pieces[col][row].picture->setDestinationRect(destination_x, destination_y, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
 	//this->array_of_pieces[col][row].picture->render(renderer);
 }
 
