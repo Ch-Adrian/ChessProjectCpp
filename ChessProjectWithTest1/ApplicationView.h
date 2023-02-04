@@ -15,13 +15,6 @@ public:
 	Window mainWindow;
 	Board board;
 
-	Picture picture_black_queen;
-	Picture picture_white_queen;
-	Picture picture_black_knight;
-	Picture picture_white_knight;
-	Picture picture_background;
-	Picture picture_background2;
-
 	bool onDrag = false;
 	int moving_picture_init_col = -1;
 	int moving_picture_init_row = -1;
@@ -29,7 +22,7 @@ public:
 	SDL_Rect originViewPort;
 	bool show_middleViewPort = false;
 	SDL_Rect middleViewPort;
-	bool exchange_color = false;
+	PlayerColor exchange_color = PlayerColor::WHITE;
 
 	ApplicationView();
 

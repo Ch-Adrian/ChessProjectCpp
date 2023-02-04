@@ -217,7 +217,7 @@ int BoardData::move_piece(const Move& move) {
 
 }
 
-void BoardData::exchange_pawn(int type, bool color) {
+void BoardData::exchange_pawn(int type, PlayerColor color) {
 	
 	switch (type) {
 	case QUEEN: 

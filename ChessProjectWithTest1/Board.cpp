@@ -11,11 +11,11 @@
 #include "ApplicationView.h"
 #include <math.h>
 
-Board::Board(SDL_Renderer* renderer) {
+Board::Board(Window& mainWindow): mainWindow(mainWindow) {
 
 	std::map<Position, Piece*> pieces = this->boardData.get_board();
 
-	this->renderer = renderer;
+	this->renderer = mainWindow.getRenderer();
 
 	bool c = 0;
 
@@ -122,6 +122,30 @@ Board::Board(SDL_Renderer* renderer) {
 		
 	}
 
+	this->picture_black_queen.init("resources/black_queen.bmp", renderer);
+	this->picture_black_queen.setSourceRect(0, 0, 500, 500);
+	this->picture_black_queen.setDestinationRect(0, 0, 100, 100);
+
+	this->picture_white_queen.init("resources/white_queen.bmp", renderer);
+	this->picture_white_queen.setSourceRect(0, 0, 500, 500);
+	this->picture_white_queen.setDestinationRect(0, 0, 100, 100);
+
+	this->picture_black_knight.init("resources/black_knight.bmp", renderer);
+	this->picture_black_knight.setSourceRect(0, 0, 500, 500);
+	this->picture_black_knight.setDestinationRect(100, 0, 100, 100);
+
+	this->picture_white_knight.init("resources/white_knight.bmp", renderer);
+	this->picture_white_knight.setSourceRect(0, 0, 500, 500);
+	this->picture_white_knight.setDestinationRect(100, 0, 100, 100);
+
+	this->picture_background.init("resources/black_field.bmp", renderer);
+	this->picture_background.setSourceRect(0, 0, 100, 100);
+	this->picture_background.setDestinationRect(0, 0, 100, 100);
+
+	this->picture_background2.init("resources/black_field.bmp", renderer);
+	this->picture_background2.setSourceRect(0, 0, 100, 100);
+	this->picture_background2.setDestinationRect(100, 0, 100, 100);
+
 }
 
 void Board::apply_pieces(std::map<Position, Piece*> pieces) {
@@ -215,4 +239,19 @@ Board::~Board() {
 		delete[] array_of_fields[i];
 	}
 	delete[] array_of_fields;
+}
+
+void Board::render_selection(PlayerColor exchange_color){
+
+	picture_background.render(renderer);
+	picture_background2.render(renderer);
+	if (exchange_color == BLACK) {
+		picture_black_knight.render(renderer);
+		picture_black_queen.render(renderer);
+	}
+	else {
+		picture_white_queen.render(renderer);
+		picture_white_knight.render(renderer);
+	}
+
 }

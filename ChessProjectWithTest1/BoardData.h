@@ -30,7 +30,7 @@ public:
 	virtual const std::vector<Piece*> get_one_side_pieces(PlayerColor side);
 	int move_piece(const Move& move);
 	bool validate_move(const Move& move);
-	void exchange_pawn(int type, bool color);
+	void exchange_pawn(int type, PlayerColor color);
 	std::vector<Position> get_all_available_positions(const Position& pos);
 
 	~BoardData();

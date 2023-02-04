@@ -4,31 +4,7 @@
 
 ApplicationView::ApplicationView():
 	mainWindow(Window{"Chess", BOARD_WIDTH, BOARD_HEIGHT}),
-	board(Board{ mainWindow.getRenderer() }) {
-
-	this->picture_black_queen.init("resources/black_queen.bmp", mainWindow.getRenderer());
-	this->picture_black_queen.setSourceRect(0, 0, 500, 500);
-	this->picture_black_queen.setDestinationRect(0, 0, 100, 100);
-
-	this->picture_white_queen.init("resources/white_queen.bmp", mainWindow.getRenderer());
-	this->picture_white_queen.setSourceRect(0, 0, 500, 500);
-	this->picture_white_queen.setDestinationRect(0, 0, 100, 100);
-
-	this->picture_black_knight.init("resources/black_knight.bmp", mainWindow.getRenderer());
-	this->picture_black_knight.setSourceRect(0, 0, 500, 500);
-	this->picture_black_knight.setDestinationRect(100, 0, 100, 100);
-
-	this->picture_white_knight.init("resources/white_knight.bmp", mainWindow.getRenderer());
-	this->picture_white_knight.setSourceRect(0, 0, 500, 500);
-	this->picture_white_knight.setDestinationRect(100, 0, 100, 100);
-
-	this->picture_background.init("resources/black_field.bmp", mainWindow.getRenderer());
-	this->picture_background.setSourceRect(0, 0, 100, 100);
-	this->picture_background.setDestinationRect(0, 0, 100, 100);
-
-	this->picture_background2.init("resources/black_field.bmp", mainWindow.getRenderer());
-	this->picture_background2.setSourceRect(0, 0, 100, 100);
-	this->picture_background2.setDestinationRect(100, 0, 100, 100);
+	board(Board{ mainWindow }){
 
 	this->originViewPort.x = 0;
 	this->originViewPort.y = 0;
@@ -102,10 +78,10 @@ bool ApplicationView::actionRelease(SDL_Event& event) {
 		//board.change_position(next_move.from.col, next_move.from.row, field_next_position_x_px, field_next_position_y_px );
 		if (ret_val == PAWN_TOP) {
 			show_middleViewPort = true;
-			exchange_color = true;
+			exchange_color = PlayerColor::BLACK;
 		}
 		else if (ret_val == PAWN_BOTTOM) {
-			exchange_color = false;
+			exchange_color = PlayerColor::WHITE;
 			show_middleViewPort = true;
 		}
 	}
@@ -166,19 +142,8 @@ void ApplicationView::renderView() {
 
 		if (show_middleViewPort) {
 			SDL_RenderSetViewport(mainWindow.getRenderer(), &middleViewPort);
-			picture_background.render(mainWindow.getRenderer());
-			picture_background2.render(mainWindow.getRenderer());
-			if (exchange_color == BLACK) {
-				picture_black_knight.render(mainWindow.getRenderer());
-				picture_black_queen.render(mainWindow.getRenderer());
-			}
-			else {
-				picture_white_queen.render(mainWindow.getRenderer());
-				picture_white_knight.render(mainWindow.getRenderer());
-			}
+			this->board.render_selection(exchange_color);
 		}
-		//picture_background.render(mainWindow.getRenderer());
-		//picture.render(mainWindow.getRenderer());
 
 		SDL_RenderPresent(mainWindow.getRenderer());
 
