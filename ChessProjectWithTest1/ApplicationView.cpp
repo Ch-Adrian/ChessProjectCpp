@@ -31,7 +31,7 @@ void ApplicationView::actionClick(SDL_Event& event) {
 
 	}
 	else {
-		board.mark_accesible_fields(this->board.boardData.get_all_available_positions(Position(moving_picture_init_col, moving_picture_init_row)));
+		board.mark_accesible_fields(moving_picture_init_col, moving_picture_init_row);
 		onDrag = true;
 	}
 }
