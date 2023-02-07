@@ -1,6 +1,6 @@
 Chess project requires particular modifications as follows:
 1. Constatnt variables related to certain class are in separate file.
-2. There exists separate class with global functions
+** DONE ** 2. There exists separate class with global functions
 		( it looks like author couldn't manage space for it somewhere
 			in appriopriate class)
 3. There is not applied any architectural pattern.
