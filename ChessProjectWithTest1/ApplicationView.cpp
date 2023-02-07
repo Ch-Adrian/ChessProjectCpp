@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "ApplicationView.h"
-#include "CommonFunctions.h"
 
 ApplicationView::ApplicationView():
 	mainWindow(Window{"Chess", BOARD_WIDTH, BOARD_HEIGHT}),

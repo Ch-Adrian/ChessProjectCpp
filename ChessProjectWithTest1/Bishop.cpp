@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Bishop.h"
 #include "Settings.h"
-#include "CommonFunctions.h"
 
 Bishop::Bishop(int type, int color): Piece(type, color) {
 	if (color == WHITE) {

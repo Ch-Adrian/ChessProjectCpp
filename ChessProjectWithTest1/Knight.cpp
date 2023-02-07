@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Knight.h"
 #include "Settings.h"
-#include "CommonFunctions.h"
 
 Knight::Knight(int type, int color): Piece(type, color) {
 	if (color == WHITE) {

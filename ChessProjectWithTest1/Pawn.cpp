@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Pawn.h"
 #include "Settings.h"
-#include "CommonFunctions.h"
 
 Pawn::Pawn(int type, int color): Piece(type, color) {
 

@@ -42,13 +42,11 @@
     <ClInclude Include="Bishop.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="BoardData.h" />
-    <ClInclude Include="CommonFunctions.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="InitializationException.h" />
     <ClInclude Include="IShareBoardData.h" />
     <ClInclude Include="King.h" />
     <ClInclude Include="Knight.h" />
-    <ClInclude Include="ManageData.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="NullPointerException.h" />
     <ClInclude Include="Pawn.h" />
@@ -68,13 +66,11 @@
     <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="BoardData.cpp" />
-    <ClCompile Include="CommonFunctions.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="InitializationException.cpp" />
     <ClCompile Include="King.cpp" />
     <ClCompile Include="Knight.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="ManageData.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="NullPointerException.cpp" />
     <ClCompile Include="Pawn.cpp" />

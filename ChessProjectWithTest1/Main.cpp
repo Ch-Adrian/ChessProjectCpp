@@ -8,8 +8,6 @@
 #include "BoardData.h"
 #include "Piece.h"
 #include "Settings.h"
-#include "ManageData.h"
-#include "CommonFunctions.h"
 #include "ApplicationView.h"
 
 int main(int argc, char** argv) {

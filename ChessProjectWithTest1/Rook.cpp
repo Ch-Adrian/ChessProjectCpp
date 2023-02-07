@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Rook.h"
 #include "Settings.h"
-#include "CommonFunctions.h"
 
 Rook::Rook(int type, int color): Piece(type, color) {
 	if (color == WHITE) {

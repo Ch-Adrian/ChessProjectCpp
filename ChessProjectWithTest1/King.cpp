@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "King.h"
 #include "Settings.h"
-#include "CommonFunctions.h"
 
 King::King(int type, int color): Piece(type, color) {
 	if (color == WHITE) {

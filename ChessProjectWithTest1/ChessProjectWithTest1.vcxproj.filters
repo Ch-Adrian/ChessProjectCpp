@@ -31,9 +31,6 @@
     <ClCompile Include="Picture.cpp">
       <Filter>sources</Filter>
     </ClCompile>
-    <ClCompile Include="ManageData.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
     <ClCompile Include="Move.cpp">
       <Filter>sources</Filter>
     </ClCompile>
@@ -48,9 +45,6 @@
     </ClCompile>
     <ClCompile Include="Queen.cpp">
       <Filter>sources\pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="CommonFunctions.cpp">
-      <Filter>sources</Filter>
     </ClCompile>
     <ClCompile Include="AbsolutePosition.cpp">
       <Filter>sources</Filter>
@@ -111,18 +105,12 @@
     <ClInclude Include="Settings.h">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="ManageData.h">
-      <Filter>headers</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="King.h">
       <Filter>headers\pieces</Filter>
     </ClInclude>
     <ClInclude Include="Queen.h">
       <Filter>headers\pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="CommonFunctions.h">
-      <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="IShareBoardData.h">
       <Filter>headers</Filter>

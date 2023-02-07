@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Queen.h"
 #include "Settings.h"
-#include "CommonFunctions.h"
 
 Queen::Queen(int type, int color): Piece(type, color) {
 	if (color == WHITE) {
