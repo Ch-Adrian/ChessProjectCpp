@@ -42,21 +42,21 @@ std::vector<Position> Pawn::get_available_positions(IShareBoardData& share, cons
 
 		//std::cout << "pawn white" << std::endl;
 		// going forward
-		if (CommonFunctions::position_inside_board(Position(pos.col, pos.row + 1)) && 
+		if (position_inside_board(Position(pos.col, pos.row + 1)) && 
 			share.get_piece(Position(pos.col, pos.row + 1)) == nullptr) {
 			availablePositions.push_back(Position(pos.col, pos.row + 1));
-			if (CommonFunctions::position_inside_board(Position(pos.col, pos.row + 2)) && 
+			if (position_inside_board(Position(pos.col, pos.row + 2)) && 
 				firstMove && share.get_piece(Position(pos.col, pos.row + 2)) == nullptr) {
 				availablePositions.push_back(Position(pos.col, pos.row + 2));
 			}
 		}
 		
 		// assult
-		if (CommonFunctions::position_inside_board(Position(pos.col - 1, pos.row + 1)) && 
+		if (position_inside_board(Position(pos.col - 1, pos.row + 1)) && 
 			share.get_color(Position(pos.col - 1, pos.row + 1)) == BLACK) {
 			availablePositions.push_back(Position(pos.col - 1, pos.row + 1));
 		}
-		if (CommonFunctions::position_inside_board(Position(pos.col + 1, pos.row + 1)) && 
+		if (position_inside_board(Position(pos.col + 1, pos.row + 1)) && 
 			share.get_color(Position(pos.col + 1, pos.row + 1)) == BLACK) {
 			availablePositions.push_back(Position(pos.col + 1, pos.row + 1));
 		}
@@ -86,21 +86,21 @@ std::vector<Position> Pawn::get_available_positions(IShareBoardData& share, cons
 	else if(share.get_color(pos) == BLACK) {
 
 		//std::cout << "black pawn" << std::endl;
-		if (CommonFunctions::position_inside_board(Position(pos.col, pos.row - 1)) && 
+		if (position_inside_board(Position(pos.col, pos.row - 1)) && 
 			share.get_piece(Position(pos.col, pos.row - 1)) == nullptr) {
 			availablePositions.push_back(Position(pos.col, pos.row - 1));
-			if (CommonFunctions::position_inside_board(Position(pos.col, pos.row - 1)) && 
+			if (position_inside_board(Position(pos.col, pos.row - 1)) && 
 				firstMove && share.get_piece(Position(pos.col, pos.row - 2)) == nullptr) {
 				availablePositions.push_back(Position(pos.col, pos.row - 2));
 			}
 		}
 		//std::cout << "black assault" << std::endl;
 
-		if (CommonFunctions::position_inside_board(Position(pos.col - 1, pos.row - 1)) && 
+		if (position_inside_board(Position(pos.col - 1, pos.row - 1)) && 
 			share.get_color(Position(pos.col - 1, pos.row - 1)) == WHITE) {
 			availablePositions.push_back(Position(pos.col - 1, pos.row - 1));
 		}
-		if (CommonFunctions::position_inside_board(Position(pos.col + 1, pos.row - 1)) && 
+		if (position_inside_board(Position(pos.col + 1, pos.row - 1)) && 
 			share.get_color(Position(pos.col + 1, pos.row - 1)) == WHITE) {
 			availablePositions.push_back(Position(pos.col + 1, pos.row - 1));
 		}
@@ -147,18 +147,18 @@ std::vector<Position> Pawn::get_positions_under_attack(IShareBoardData& share, c
 	if (share.get_color(pos) == WHITE) {
 		
 		// assult
-		if (CommonFunctions::position_inside_board(Position(pos.col - 1, pos.row + 1))) {
+		if (position_inside_board(Position(pos.col - 1, pos.row + 1))) {
 			availablePositions.push_back(Position(pos.col - 1, pos.row + 1));
 		}
-		if (CommonFunctions::position_inside_board(Position(pos.col + 1, pos.row + 1))) {
+		if (position_inside_board(Position(pos.col + 1, pos.row + 1))) {
 			availablePositions.push_back(Position(pos.col + 1, pos.row + 1));
 		}
 	}
 	else if(share.get_color(pos) == BLACK) {
-		if (CommonFunctions::position_inside_board(Position(pos.col - 1, pos.row - 1))) {
+		if (position_inside_board(Position(pos.col - 1, pos.row - 1))) {
 			availablePositions.push_back(Position(pos.col - 1, pos.row - 1));
 		}
-		if (CommonFunctions::position_inside_board(Position(pos.col + 1, pos.row - 1))) {
+		if (position_inside_board(Position(pos.col + 1, pos.row - 1))) {
 			availablePositions.push_back(Position(pos.col + 1, pos.row - 1));
 		}
 	}

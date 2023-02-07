@@ -148,7 +148,7 @@ Board::Board(Window& mainWindow): mainWindow(mainWindow) {
 
 }
 
-void Board::apply_pieces(std::map<Position, Piece*> pieces) {
+void Board::apply_pieces() {
 
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
@@ -156,7 +156,7 @@ void Board::apply_pieces(std::map<Position, Piece*> pieces) {
 		}
 	}
 
-	for (auto p : pieces) {
+	for (auto p : boardData.get_board()) {
 
 		int x = p.first.col;
 		int y = p.first.row;
@@ -253,5 +253,18 @@ void Board::render_selection(PlayerColor exchange_color){
 		picture_white_queen.render(renderer);
 		picture_white_knight.render(renderer);
 	}
+
+}
+
+void Board::exchange_pawn(bool isQueen, PlayerColor exchange_color){
+	
+	if (isQueen) {
+		boardData.exchange_pawn(PieceType::QUEEN, exchange_color);
+	}
+	else {
+		boardData.exchange_pawn(PieceType::LEFT_KNIGHT, exchange_color);
+	}
+	
+	apply_pieces();
 
 }

@@ -12,6 +12,11 @@ public:
 	const static int FIELD_HEIGHT = 100;
 	const static int BOARD_BORDER_WIDTH = 25;
 
+	static int convX_to_pixels(int pos);
+	static int convX_to_position(int pix);
+	static int convY_to_pixels(int pos);
+	static int convY_to_position(int pix);
+
 	Window mainWindow;
 	Board board;
 

@@ -78,7 +78,7 @@ std::vector<Position> King::get_available_positions(IShareBoardData& share, cons
 	for (int i = 0; i < 8; i++) {
 		std::cout << "Next Position king: " << next_position << std::endl;
 
-		bool cond0 = CommonFunctions::position_inside_board(next_position);
+		bool cond0 = position_inside_board(next_position);
 		bool cond1 = enemyMapPositions.find(next_position) == enemyMapPositions.end();
 		bool cond2 = share.get_piece(next_position) == nullptr;
 		bool cond3 = share.get_color(next_position) == opponent_color;

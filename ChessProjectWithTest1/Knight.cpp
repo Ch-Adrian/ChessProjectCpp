@@ -44,7 +44,7 @@ std::vector<Position> Knight::get_available_positions(IShareBoardData& share, co
 		std::cout << "knight: " << next_position << std::endl;
 
 		if (i % 2) {
-			if (CommonFunctions::position_inside_board(next_position)) {
+			if (position_inside_board(next_position)) {
 				if (share.get_piece(next_position) == nullptr ||
 					share.get_color(next_position) == opponent_color) {
 					availablePositions.push_back(next_position);

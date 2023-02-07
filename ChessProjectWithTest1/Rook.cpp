@@ -53,12 +53,12 @@ std::vector<Position> Rook::get_available_positions(IShareBoardData& share, cons
 		
 		increase_position1(next_position, i);
 
-		while (CommonFunctions::position_inside_board(next_position) && share.get_piece(next_position) == nullptr) {
+		while (position_inside_board(next_position) && share.get_piece(next_position) == nullptr) {
 			availablePositions.push_back(next_position);
 			increase_position1(next_position, i);
 		}
 
-		if (CommonFunctions::position_inside_board(next_position) && share.get_color(next_position) == opponent_color) {
+		if (position_inside_board(next_position) && share.get_color(next_position) == opponent_color) {
 			availablePositions.push_back(next_position);
 		}
 		next_position = pos;

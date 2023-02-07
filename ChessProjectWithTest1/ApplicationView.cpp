@@ -47,14 +47,7 @@ bool ApplicationView::actionRelease(SDL_Event& event) {
 		if (mouse_position_x_px >= middleViewPort.x && mouse_position_x_px <= middleViewPort.x + 2 * FIELD_WIDTH) {
 			if (mouse_position_y_px >= middleViewPort.y && mouse_position_y_px <= middleViewPort.y + FIELD_HEIGHT) {
 				show_middleViewPort = false;
-				if (mouse_position_x_px < middleViewPort.x + FIELD_WIDTH) {
-					this->board.boardData.exchange_pawn(QUEEN, exchange_color);
-				}
-				else {
-					this->board.boardData.exchange_pawn(LEFT_KNIGHT, exchange_color);
-
-				}
-				board.apply_pieces(this->board.boardData.get_board());
+				board.exchange_pawn(mouse_position_x_px < middleViewPort.x + FIELD_WIDTH, exchange_color);
 			}
 		}
 
@@ -69,12 +62,12 @@ bool ApplicationView::actionRelease(SDL_Event& event) {
 
 	if (move_acceptance) {
 
-		int field_next_position_x_px = CommonFunctions::convX_to_pixels(CommonFunctions::convX_to_position(event.button.x));
-		int field_next_position_y_px = CommonFunctions::convY_to_pixels(CommonFunctions::convY_to_position(event.button.y));
+		int field_next_position_x_px = convX_to_pixels(convX_to_position(event.button.x));
+		int field_next_position_y_px = convY_to_pixels(convY_to_position(event.button.y));
 		std::cout << "next: " << field_next_position_x_px << ", " << field_next_position_y_px << std::endl;
 		board.drag_piece(moving_picture_init_row, moving_picture_init_col, field_next_position_x_px, field_next_position_y_px);
 		int ret_val = this->board.boardData.move_piece(next_move);
-		board.apply_pieces(this->board.boardData.get_board());
+		board.apply_pieces();
 		//board.change_position(next_move.from.col, next_move.from.row, field_next_position_x_px, field_next_position_y_px );
 		if (ret_val == PAWN_TOP) {
 			show_middleViewPort = true;
@@ -87,8 +80,8 @@ bool ApplicationView::actionRelease(SDL_Event& event) {
 	}
 	else {
 
-		int field_next_position_x_px = CommonFunctions::convX_to_pixels(moving_picture_init_col);
-		int field_next_position_y_px = CommonFunctions::convY_to_pixels(moving_picture_init_row);
+		int field_next_position_x_px = convX_to_pixels(moving_picture_init_col);
+		int field_next_position_y_px = convY_to_pixels(moving_picture_init_row);
 		std::cout << "next: " << field_next_position_x_px << ", " << field_next_position_y_px << std::endl;
 		board.drag_piece(moving_picture_init_row, moving_picture_init_col, field_next_position_x_px, field_next_position_y_px);
 
@@ -148,4 +141,20 @@ void ApplicationView::renderView() {
 		SDL_RenderPresent(mainWindow.getRenderer());
 
 	}
+}
+
+int ApplicationView::convX_to_pixels(int pos){
+		return 25+(pos-1)*FIELD_WIDTH;
+}
+
+int ApplicationView::convX_to_position(int pix){
+	return (pix-25)/ FIELD_WIDTH + 1;
+}
+
+int ApplicationView::convY_to_pixels(int pos){
+	return 25+(pos-1)* FIELD_HEIGHT;
+}
+
+int ApplicationView::convY_to_position(int pix){
+	return (pix-25)/ FIELD_HEIGHT + 1;
 }

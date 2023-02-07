@@ -53,13 +53,13 @@ std::vector<Position> Bishop::get_available_positions(IShareBoardData& share, co
 	for (int i = 0; i < 4; i++) {
 
 		increase_position(next_position, i);
-		while (CommonFunctions::position_inside_board(next_position) && share.get_piece(next_position) == nullptr) {
+		while (position_inside_board(next_position) && share.get_piece(next_position) == nullptr) {
 			//std::cout << next_position << std::endl;
 			availablePositions.push_back(next_position);
 			increase_position(next_position, i);
 		}
 
-		if (CommonFunctions::position_inside_board(next_position) && share.get_color(next_position) == opponent_color) {
+		if (position_inside_board(next_position) && share.get_color(next_position) == opponent_color) {
 			//std::cout << next_position << std::endl;
 			availablePositions.push_back(next_position);
 		}
