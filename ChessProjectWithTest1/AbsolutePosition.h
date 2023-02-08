@@ -8,5 +8,7 @@ public:
 
 	AbsolutePosition();
 	AbsolutePosition(int x, int y);
+	//Position getPosition();
+
 };
 

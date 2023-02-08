@@ -203,8 +203,26 @@ void Board::drag_piece(int row, int col, int destination_x, int destination_y) {
 	if (this->array_of_pieces[col][row].picture == nullptr) {
 		return;
 	}
-	this->array_of_pieces[col][row].picture->setDestinationRect(destination_x, destination_y, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
+
+	this->array_of_pieces[col][row].
+		picture->setDestinationRect(destination_x, 
+					destination_y, 
+					ApplicationView::FIELD_WIDTH, 
+					ApplicationView::FIELD_HEIGHT);
 	//this->array_of_pieces[col][row].picture->render(renderer);
+}
+
+void Board::drag_piece(Position pos, AbsolutePosition abs_pos){
+	if (this->array_of_pieces[pos.col][pos.row].picture == nullptr) {
+		return;
+	}
+
+	this->array_of_pieces[pos.col][pos.row].
+		picture->setDestinationRect(
+				abs_pos.x - ApplicationView::FIELD_WIDTH/2,
+				abs_pos.y - ApplicationView::FIELD_HEIGHT/2, 
+				ApplicationView::FIELD_WIDTH, 
+				ApplicationView::FIELD_HEIGHT);
 }
 
 void Board::mark_accesible_fields(int moving_picture_init_col, int moving_picture_init_row) {
@@ -267,4 +285,13 @@ void Board::exchange_pawn(bool isQueen, PlayerColor exchange_color){
 	
 	apply_pieces();
 
+}
+
+
+int Board::move_piece(const Move& move){
+	return this->boardData.move_piece(move);
+}
+
+bool Board::validate_move(const Move& move){
+	return this->boardData.validate_move(move);
 }
