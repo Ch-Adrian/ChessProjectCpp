@@ -32,11 +32,13 @@ public:
 	virtual bool hasTurn(const Position& pos);
 
 	PlayerColor getTurn();
+	void changeTurn();
 	int move_piece(const Move& move);
 	bool validate_move(const Move& move);
-	void exchange_pawn(int type, PlayerColor color);
+	void exchange_pawn(PieceType type, PlayerColor color);
 	std::vector<Position> get_all_available_positions(const Position& pos);
-	
+	bool isKingChecked(PlayerColor color);
+	Position* findKingPosition(PlayerColor color, std::map<Position, Piece*>& board);
 
 	~BoardData();
 };

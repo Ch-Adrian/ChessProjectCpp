@@ -295,3 +295,8 @@ int Board::move_piece(const Move& move){
 bool Board::validate_move(const Move& move){
 	return this->boardData.validate_move(move);
 }
+
+BoardData& Board::getBoardData() {
+	return this->boardData;
+}
+

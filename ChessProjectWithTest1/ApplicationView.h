@@ -19,6 +19,7 @@ public:
 
 	Window mainWindow;
 	Board board;
+	BoardData& boardData;
 
 	bool onDrag = false;
 	int moving_picture_init_col = -1;

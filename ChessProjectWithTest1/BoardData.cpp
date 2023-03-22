@@ -12,7 +12,8 @@
 BoardData::BoardData() {
 
 	this->board = std::map<Position, Piece*>();
-	
+	this->turn = PlayerColor::BLACK;
+
 	boardArray = new Piece ** [9];
 	for (int i = 0; i <= 8; i++) {
 		boardArray[i] = new Piece*[9];
@@ -217,7 +218,7 @@ int BoardData::move_piece(const Move& move) {
 
 }
 
-void BoardData::exchange_pawn(int type, PlayerColor color) {
+void BoardData::exchange_pawn(PieceType type, PlayerColor color) {
 	
 	switch (type) {
 	case QUEEN: 
@@ -287,4 +288,78 @@ bool BoardData::hasTurn(const Position& pos) {
 
 PlayerColor BoardData::getTurn() {
 	return this->turn;
+}
+
+void BoardData::changeTurn() {
+	if (this->turn == PlayerColor::BLACK) {
+		this->turn = PlayerColor::WHITE;
+	}
+	else {
+		this->turn = PlayerColor::BLACK;
+	}
+}
+
+
+bool BoardData::isKingChecked(PlayerColor color) {
+
+	if (color == PlayerColor::BLACK) {
+
+		Position* black_king_position = findKingPosition(PlayerColor::BLACK, this->board);
+		if (black_king_position == nullptr) return false;
+
+		std::map<Position, Piece*>::iterator map_it;
+		for (map_it = this->board.begin(); map_it != this->board.end(); map_it++) {
+			Piece* piece = map_it->second;
+			Position piece_pos = map_it->first;
+			
+			if (piece->get_color() == PlayerColor::BLACK) continue;
+
+			for (Position pos : piece->get_positions_under_attack(*this, piece_pos)) {
+				if (pos == *black_king_position) {
+					return true;
+				}
+			}
+
+		}
+		return false;
+
+	}
+	else {
+	
+		Position* white_king_position = findKingPosition(PlayerColor::WHITE, this->board);
+		if (white_king_position == nullptr) return false;
+
+		std::map<Position, Piece*>::iterator map_it;
+		for (map_it = this->board.begin(); map_it != this->board.end(); map_it++) {
+			Piece* piece = map_it->second;
+			Position piece_pos = map_it->first;
+			
+			if (piece->get_color() == PlayerColor::WHITE) continue;
+
+			for (Position pos : piece->get_positions_under_attack(*this, piece_pos)) {
+				if (pos == *white_king_position) {
+					return true;
+				}
+			}
+
+		}
+		return false;
+		
+	}
+	
+}
+
+Position* BoardData::findKingPosition(PlayerColor color, std::map<Position, Piece*>& board) {
+
+	std::map<Position, Piece*>::iterator map_it;
+	for (map_it = board.begin(); map_it != board.end(); map_it++) {
+		Piece* piece = map_it->second;
+		Position piece_pos = map_it->first;
+		
+		if (piece->get_type() == PieceType::KING && piece->get_color() == color){ 
+			return &piece_pos;
+		}
+
+	}
+	return nullptr;
 }

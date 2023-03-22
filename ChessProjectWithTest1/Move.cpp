@@ -29,3 +29,7 @@ bool Move::isEmpty() const{
 	}
 	return false;
 }
+
+bool Move::isBackToTheSamePlace() {
+	return this->from == this->to;
+}

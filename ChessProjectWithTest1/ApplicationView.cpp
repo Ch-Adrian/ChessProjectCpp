@@ -3,7 +3,7 @@
 
 ApplicationView::ApplicationView():
 	mainWindow(Window{"Chess", BOARD_WIDTH, BOARD_HEIGHT}),
-	board(Board{ mainWindow }){
+	board(Board{ mainWindow }), boardData(this->board.getBoardData()){
 
 	this->originViewPort.x = 0;
 	this->originViewPort.y = 0;
@@ -25,7 +25,7 @@ void ApplicationView::actionClick(SDL_Event& event) {
 	//std::cout << "mouse y: " << mouse_position_y_px << std::endl;
 	moving_picture_init_col = mouse_position_x_px / FIELD_WIDTH + 1;
 	moving_picture_init_row = mouse_position_y_px / FIELD_HEIGHT + 1;
-
+	Position picture_pos(moving_picture_init_col, moving_picture_init_row);
 	//std::cout << mouse_position_x_px << std::endl;
 
 	if (show_middleViewPort) {
@@ -37,8 +37,10 @@ void ApplicationView::actionClick(SDL_Event& event) {
 		}
 	}
 	else {
-		board.mark_accesible_fields(moving_picture_init_col, moving_picture_init_row);
-		onDrag = true;
+		if (this->boardData.hasTurn(picture_pos)) {
+			board.mark_accesible_fields(moving_picture_init_col, moving_picture_init_row);
+			onDrag = true;
+		}
 	}
 }
 
@@ -49,7 +51,7 @@ bool ApplicationView::actionRelease(SDL_Event& event) {
 	int moving_picture_final_row = mouse_position_y_px / FIELD_HEIGHT + 1;
 	int moving_picture_final_col = mouse_position_x_px / FIELD_WIDTH + 1;
 
-	if (show_middleViewPort) { return false; }
+	if (show_middleViewPort || !onDrag) { return false; }
 
 	//std::cout << "initial: " << moving_picture_init_col << ", " << moving_picture_init_row << std::endl;
 	//std::cout << "final: " << moving_picture_final_col << ", " << moving_picture_final_row << std::endl;
@@ -57,7 +59,7 @@ bool ApplicationView::actionRelease(SDL_Event& event) {
 	bool move_acceptance = this->board.validate_move(next_move);
 	//std::cout << "validate: " << move_acceptance << std::endl;
 
-	if (move_acceptance) {
+	if (move_acceptance && !next_move.isBackToTheSamePlace()) {
 
 		int field_next_position_x_px = convX_to_pixels(convX_to_position(event.button.x));
 		int field_next_position_y_px = convY_to_pixels(convY_to_position(event.button.y));
@@ -76,6 +78,8 @@ bool ApplicationView::actionRelease(SDL_Event& event) {
 			exchange_color = PlayerColor::WHITE;
 			show_middleViewPort = true;
 		}
+		
+		this->boardData.changeTurn();
 
 	}
 	else {

@@ -39,5 +39,5 @@ public:
 	void exchange_pawn(bool isQueen, PlayerColor exchange_color);
 	int move_piece(const Move& move);
 	bool validate_move(const Move& move);
-
+	BoardData& getBoardData();
 };
