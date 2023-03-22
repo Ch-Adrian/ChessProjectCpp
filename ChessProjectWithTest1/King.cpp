@@ -2,7 +2,7 @@
 #include "King.h"
 #include "Settings.h"
 
-King::King(int type, int color): Piece(type, color) {
+King::King(PieceType type, PlayerColor color): Piece(type, color) {
 	if (color == WHITE) {
 		this->image_source = "resources/white_king.bmp";
 	}

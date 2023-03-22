@@ -2,7 +2,7 @@
 #include "Bishop.h"
 #include "Settings.h"
 
-Bishop::Bishop(int type, int color): Piece(type, color) {
+Bishop::Bishop(PieceType type, PlayerColor color): Piece(type, color) {
 	if (color == WHITE) {
 		this->image_source = "resources/white_bishop.bmp";
 	}

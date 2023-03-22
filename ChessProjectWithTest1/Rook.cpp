@@ -2,7 +2,7 @@
 #include "Rook.h"
 #include "Settings.h"
 
-Rook::Rook(int type, int color): Piece(type, color) {
+Rook::Rook(PieceType type, PlayerColor color): Piece(type, color) {
 	if (color == WHITE) {
 		this->image_source = "resources/white_rook.bmp";
 	}

@@ -17,6 +17,7 @@ private:
 
 	Move pawn_double_move;
 	Position edge_pawn_position;
+	PlayerColor turn;
 
 public:
 
@@ -24,14 +25,18 @@ public:
 	virtual const std::map<Position, Piece*> get_board();
 	virtual Piece*** get_array_board();
 	virtual Piece* get_piece(const Position& pos);
-	virtual int get_type(const Position& pos);
-	virtual int get_color(const Position& pos);
+	virtual PieceType get_type(const Position& pos);
+	virtual PlayerColor get_color(const Position& pos);
 	virtual const Move& get_last_pawn_move();
 	virtual const std::vector<Piece*> get_one_side_pieces(PlayerColor side);
+	virtual bool hasTurn(const Position& pos);
+
+	PlayerColor getTurn();
 	int move_piece(const Move& move);
 	bool validate_move(const Move& move);
 	void exchange_pawn(int type, PlayerColor color);
 	std::vector<Position> get_all_available_positions(const Position& pos);
+	
 
 	~BoardData();
 };

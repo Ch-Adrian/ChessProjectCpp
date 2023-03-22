@@ -2,7 +2,7 @@
 #include "Queen.h"
 #include "Settings.h"
 
-Queen::Queen(int type, int color): Piece(type, color) {
+Queen::Queen(PieceType type, PlayerColor color): Piece(type, color) {
 	if (color == WHITE) {
 		this->image_source = "resources/white_queen.bmp";
 	}

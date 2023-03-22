@@ -6,13 +6,13 @@
 class Piece
 {
 private:
-	int type;
-	bool color;
+	PieceType type;
+	PlayerColor color;
 	int id;
 
 public:
 
-	Piece(int type, bool color);
+	Piece(PieceType type, PlayerColor color);
 
 	virtual bool validate_move(IShareBoardData& share, const Move& move) = 0;
 	virtual std::vector<Position> get_available_positions(IShareBoardData& share, const Position& pos) = 0;
@@ -21,8 +21,8 @@ public:
 	static bool position_inside_board(const Position& pos);
 
 	//virtual bool validate_move(Position* from, Position* to);
-	int get_type();
-	bool get_color();
+	PieceType get_type();
+	PlayerColor get_color();
 	int get_id();
 	void set_id(int id);
 

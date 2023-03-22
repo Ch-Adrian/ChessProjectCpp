@@ -2,7 +2,7 @@
 #include "Knight.h"
 #include "Settings.h"
 
-Knight::Knight(int type, int color): Piece(type, color) {
+Knight::Knight(PieceType type, PlayerColor color): Piece(type, color) {
 	if (color == WHITE) {
 		this->image_source = "resources/white_knight.bmp";
 	}

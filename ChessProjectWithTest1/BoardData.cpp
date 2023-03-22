@@ -126,7 +126,7 @@ Piece* BoardData::get_piece(const Position& pos) {
 	return nullptr;
 }
 
-int BoardData::get_type(const Position& pos) {
+PieceType BoardData::get_type(const Position& pos) {
 	if (pos.col <= 8 && pos.col >= 1 && pos.row <= 8 && pos.row >= 1) {
 		if (this->board.find(Position(pos.col, pos.row)) != this->board.end())
 			return this->board.at(Position(pos.col, pos.row))->get_type();
@@ -135,10 +135,10 @@ int BoardData::get_type(const Position& pos) {
 			//return this->boardArray[pos.col][pos.row]->get_type();
 		//}
 	}
-	return -1;
+	return PieceType::NONE;
 }
 
- int BoardData::get_color(const Position& pos) {
+PlayerColor BoardData::get_color(const Position& pos) {
 	if (pos.col <= 8 && pos.col >= 1 && pos.row <= 8 && pos.row >= 1) {
 		if (this->board.find(Position(pos.col, pos.row)) != this->board.end())
 			return this->board.at(Position(pos.col, pos.row))->get_color();
@@ -146,7 +146,7 @@ int BoardData::get_type(const Position& pos) {
 		//if(this->boardArray[pos.col][pos.row] != nullptr)
 			//return this->boardArray[pos.col][pos.row]->get_color();
 	}
-	return -1;
+	return PlayerColor::EMPTY;
 }
 
 int BoardData::move_piece(const Move& move) {
@@ -276,4 +276,15 @@ const std::vector<Piece*> BoardData::get_one_side_pieces(PlayerColor side) {
 		return this->white_pieces;
 	}
 
+}
+
+bool BoardData::hasTurn(const Position& pos) {
+	if (this->turn == this->get_color(pos)) {
+		return true;
+	}
+	return false;
+}
+
+PlayerColor BoardData::getTurn() {
+	return this->turn;
 }

@@ -1,17 +1,17 @@
 #include "pch.h"
 #include "Piece.h"
 
-Piece::Piece(int type, bool color) {
+Piece::Piece(PieceType type, PlayerColor color) {
 	this->color = color;
 	this->type = type;
 	this->id = -1;
 }
 
-int Piece::get_type() {
+PieceType Piece::get_type() {
 	return this->type;
 }
 
-bool Piece::get_color() {
+PlayerColor Piece::get_color() {
 	return this->color;
 }
 

@@ -2,7 +2,7 @@
 #include "Pawn.h"
 #include "Settings.h"
 
-Pawn::Pawn(int type, int color): Piece(type, color) {
+Pawn::Pawn(PieceType type, PlayerColor color): Piece(type, color) {
 
 	this->firstMove = true;
 	if (color == WHITE) {
