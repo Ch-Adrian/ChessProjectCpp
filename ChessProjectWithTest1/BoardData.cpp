@@ -124,9 +124,6 @@ Piece* BoardData::get_piece(const Position& pos) {
 		if (this->board.find(Position(pos.col, pos.row)) != this->board.end())
 			return this->board.at(Position(pos.col, pos.row));
 
-		//if (this->boardArray[pos.col][pos.row] != nullptr)
-			//return nullptr;
-			//return this->boardArray[pos.col][pos.row];
 	return nullptr;
 }
 
@@ -135,9 +132,6 @@ PieceType BoardData::get_type(const Position& pos) {
 		if (this->board.find(Position(pos.col, pos.row)) != this->board.end())
 			return this->board.at(Position(pos.col, pos.row))->get_type();
 
-		//if (this->boardArray[pos.col][pos.row] != nullptr) {
-			//return this->boardArray[pos.col][pos.row]->get_type();
-		//}
 	}
 	return PieceType::NONE;
 }
@@ -147,8 +141,6 @@ PlayerColor BoardData::get_color(const Position& pos) {
 		if (this->board.find(Position(pos.col, pos.row)) != this->board.end())
 			return this->board.at(Position(pos.col, pos.row))->get_color();
 
-		//if(this->boardArray[pos.col][pos.row] != nullptr)
-			//return this->boardArray[pos.col][pos.row]->get_color();
 	}
 	return PlayerColor::EMPTY;
 }
@@ -398,7 +390,6 @@ PlayerColor BoardData::simulateKingIsReleased(Move move) {
 					if (enemy->get_color() == BLACK &&
 						enemy->get_type() == PAWN) {
 						en_passant_top = new Position(move.to.col, move.from.row);
-						// std::cout << "en passant succeed" << std::endl;
 
 						board_array_element_top = boardArray[move.to.col][move.from.row];
 						boardArray[move.to.col][move.from.row] = nullptr;
@@ -412,7 +403,6 @@ PlayerColor BoardData::simulateKingIsReleased(Move move) {
 					if (enemy->get_color() == WHITE &&
 						enemy->get_type() == PAWN) {
 						en_passant_bottom = new Position(move.to.col, move.from.row);
-						// std::cout << "en passant succeed" << std::endl;
 
 						board_array_element_bottom = boardArray[move.to.col][move.from.row];
 						boardArray[move.to.col][move.from.row] = nullptr;

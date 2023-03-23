@@ -30,7 +30,6 @@ void Picture::init(std::string pathToImage, SDL_Renderer* windowRenderer) {
 }
 
 void Picture::loadSurface(std::string pathToImage) {
-	//this->surface = IMG_Load(pathToImage.c_str());
 	this->surface = SDL_LoadBMP(pathToImage.c_str());
 	if (this->surface == NULL) {
 		this->surface = nullptr;
@@ -53,7 +52,6 @@ void Picture::loadSurface_with_format(std::string pathToImage, SDL_PixelFormat* 
 	if (pTemporarySurface) {
 		this->surface = SDL_ConvertSurface(pTemporarySurface, format, NULL);
 	}
-	//this->surface = IMG_Load(pathToImage.c_str());
 	if (this->surface == NULL) {
 		this->surface = nullptr;
 		throw InitializationException("Cannot load from file: " + std::string(SDL_GetError()) + "\n");
@@ -107,10 +105,6 @@ void Picture::render(SDL_Renderer* windowRenderer) {
 		throw NullPointerException("Texture Source has not been initialized!");
 	if (this->destinationRect == nullptr)
 		throw NullPointerException("Texture destination has not been initialized!");
-	//SDL_SetTextureColorMod(this->texture, 50, 200, 50);
-	//SDL_SetTextureBlendMode(this->texture, SDL_BLENDMODE_NONE);
-	//SDL_RenderCopyEx(windowRenderer, this->texture, this->sourceRect,
-		//this->destinationRect, this->angle, this->rotationCenter, this->flip);
 	SDL_RenderCopy(windowRenderer, this->texture, this->sourceRect, this->destinationRect);
 }
 

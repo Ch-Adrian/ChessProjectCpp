@@ -12,8 +12,3 @@ AbsolutePosition::AbsolutePosition(int x, int y) {
 	this->x = x;
 	this->y = y;
 }
-
-//Position AbsolutePosition::getPosition(){
-//	return Position(ApplicationView::convX_to_position(this->x),
-//					ApplicationView::convY_to_position(this->y));
-//}
