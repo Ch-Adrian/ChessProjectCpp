@@ -63,7 +63,7 @@ bool ApplicationView::actionRelease(SDL_Event& event) {
 	bool king_released = !king_checked;
 	PlayerColor releasedKingColor = PlayerColor::EMPTY;
 
-	if (!not_moving_at_all) {
+	if (!not_moving_at_all && move_acceptance) {
 		releasedKingColor = this->boardData.simulateKingIsReleased(next_move);
 		if (releasedKingColor != PlayerColor::EMPTY) {
 			king_released = false;
