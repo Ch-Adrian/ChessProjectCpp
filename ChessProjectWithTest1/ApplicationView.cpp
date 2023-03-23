@@ -58,11 +58,24 @@ bool ApplicationView::actionRelease(SDL_Event& event) {
 	Move next_move = Move(Position(moving_picture_init_col, moving_picture_init_row), Position(moving_picture_final_col, moving_picture_final_row));
 	bool move_acceptance = this->boardData.validate_move(next_move);
 	//std::cout << "validate: " << move_acceptance << std::endl;
+	bool not_moving_at_all = next_move.isBackToTheSamePlace();
+	bool king_checked = this->boardData.isKingChecked();
+	bool king_released = !king_checked;
+	PlayerColor releasedKingColor = PlayerColor::EMPTY;
 
-	if (move_acceptance && !next_move.isBackToTheSamePlace() &&
-		( !this->boardData.isKingChecked(this->boardData.getTurn()) || 
-		(this->boardData.isKingChecked(this->boardData.getTurn()) && 
-			this->boardData.simulateKingIsReleased(next_move, this->boardData.getTurn())))) {
+	if (!not_moving_at_all) {
+		releasedKingColor = this->boardData.simulateKingIsReleased(next_move);
+		if (releasedKingColor != PlayerColor::EMPTY) {
+			king_released = false;
+		}
+		else {
+			king_released = true;
+		}
+	}
+	
+
+	if (move_acceptance && !next_move.isBackToTheSamePlace() && !(king_checked && !king_released) && 
+		!(!king_checked && !king_released && this->boardData.getTurn() == releasedKingColor) ) {
 
 		int field_next_position_x_px = convX_to_pixels(convX_to_position(event.button.x));
 		int field_next_position_y_px = convY_to_pixels(convY_to_position(event.button.y));
@@ -84,7 +97,7 @@ bool ApplicationView::actionRelease(SDL_Event& event) {
 		
 		this->boardData.unCheckKing();
 		this->boardData.changeTurn();
-		this->boardData.checkKingIsThreatened(this->boardData.getTurn());
+		this->boardData.checkKingIsThreatened();
 		// std::cout << "Is king threatened?: " << this->boardData.isKingChecked(this->boardData.getTurn()) << std::endl;
 	}
 	else {

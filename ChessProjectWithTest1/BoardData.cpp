@@ -15,6 +15,7 @@ BoardData::BoardData() {
 
 	this->board = std::map<Position, Piece*>();
 	this->turn = PlayerColor::BLACK;
+	this->kingsChecked = PlayerColor::EMPTY;
 
 	boardArray = new Piece ** [9];
 	for (int i = 0; i <= 8; i++) {
@@ -347,20 +348,26 @@ Position* BoardData::findKingPosition(PlayerColor color, std::map<Position, Piec
 	return nullptr;
 }
 
-bool BoardData::checkKingIsThreatened(PlayerColor kingsColor) {
+bool BoardData::checkKingIsThreatened() {
 
-	if (this->checkKingChecked(kingsColor)) {
-		this->kingsChecked = kingsColor;
+	if (this->checkKingChecked(PlayerColor::BLACK)) {
+		this->kingsChecked = PlayerColor::BLACK;
 		return true;
 	}
+
+	if (this->checkKingChecked(PlayerColor::WHITE)) {
+		this->kingsChecked = PlayerColor::WHITE;
+		return true;
+	}
+
 	return false;
 
 }
 
-bool BoardData::simulateKingIsReleased(Move move, PlayerColor kingsColor) {
+PlayerColor BoardData::simulateKingIsReleased(Move move) {
 	Position from(move.from.col, move.from.row);
 	Position to(move.to.col, move.to.row);
-	bool return_value = true;
+	PlayerColor return_value = PlayerColor::EMPTY;
 
 	Position* en_passant_top = nullptr;
 	Piece* board_array_element_top = nullptr;
@@ -419,6 +426,7 @@ bool BoardData::simulateKingIsReleased(Move move, PlayerColor kingsColor) {
 
 	}
 
+	Piece* assulted_piece = boardArray[to.col][to.row];
 	boardArray[to.col][to.row] = boardArray[from.col][from.row];
 	boardArray[from.col][from.row] = nullptr;
 	board.erase(Position(to));
@@ -427,8 +435,10 @@ bool BoardData::simulateKingIsReleased(Move move, PlayerColor kingsColor) {
 
 	//Move has been made.
 
-	if (this->checkKingChecked(this->getTurn())) {
-		return_value = false;
+	if (this->checkKingChecked(PlayerColor::BLACK)) {
+		return_value = PlayerColor::BLACK;
+	}else if( this->checkKingChecked(PlayerColor::WHITE) ) {
+		return_value = PlayerColor::WHITE;
 	}
 	
 	// revert changes
@@ -446,7 +456,7 @@ bool BoardData::simulateKingIsReleased(Move move, PlayerColor kingsColor) {
 	board.erase(Position(from));
 	board.insert({ Position(from), boardArray[to.col][to.row] });
 	boardArray[from.col][from.row] = boardArray[to.col][to.row];
-	boardArray[to.col][to.row] = nullptr;
+	boardArray[to.col][to.row] = assulted_piece;
 
 	if (pawn_double_move) {
 		this->pawn_double_move = pawn_double_move2;
@@ -462,6 +472,11 @@ void BoardData::unCheckKing() {
 	this->kingsChecked = PlayerColor::EMPTY;
 }
 
-bool BoardData::isKingChecked(PlayerColor color) {
-	return color == this->kingsChecked;
+bool BoardData::isKingChecked() {
+	return PlayerColor::EMPTY != this->kingsChecked;
+}
+
+
+PlayerColor BoardData::colorOfCheckedKing() {
+	return this->kingsChecked;
 }

@@ -40,11 +40,11 @@ public:
 	std::vector<Position> get_all_available_positions(const Position& pos);
 	bool checkKingChecked(PlayerColor color);
 	Position* findKingPosition(PlayerColor color, std::map<Position, Piece*>& board);
-	bool checkKingIsThreatened(PlayerColor kingsColor);
-	bool simulateKingIsReleased(Move move, PlayerColor kingsColor);
+	bool checkKingIsThreatened();
+	PlayerColor simulateKingIsReleased(Move move);
 	void unCheckKing();
-	bool isKingChecked(PlayerColor color);
-
+	bool isKingChecked();
+	PlayerColor colorOfCheckedKing();
 
 	~BoardData();
 };
