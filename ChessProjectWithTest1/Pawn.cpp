@@ -61,19 +61,19 @@ std::vector<Position> Pawn::get_available_positions(IShareBoardData& share, cons
 		}
 
 		// en passant
-		std::cout << "en passant " << std::endl;
+		// std::cout << "en passant " << std::endl;
 		if (!share.get_last_pawn_move().isEmpty()) {
-			std::cout << "last pawn move is not empty " << std::endl;
+			// std::cout << "last pawn move is not empty " << std::endl;
 			if (share.get_color(share.get_last_pawn_move().to) == BLACK) {
-				std::cout << "get color: black " << std::endl;
+				// std::cout << "get color: black " << std::endl;
 				if (share.get_last_pawn_move().to.row == pos.row) {
-					std::cout << "rows are equal " << std::endl;
+					// std::cout << "rows are equal " << std::endl;
 					Position next_position(share.get_last_pawn_move().to.col, share.get_last_pawn_move().to.row + 1);
 					if (share.get_piece(next_position) == nullptr) {
-						std::cout << "next position is accessible" << std::endl;
+						// std::cout << "next position is accessible" << std::endl;
 						if (share.get_last_pawn_move().to.col - 1 == pos.col || 
 							share.get_last_pawn_move().to.col + 1 == pos.col) {
-							std::cout << "columns differ by one" << std::endl;
+							// std::cout << "columns differ by one" << std::endl;
 							availablePositions.push_back(next_position);
 						}
 					}
@@ -162,9 +162,9 @@ std::vector<Position> Pawn::get_positions_under_attack(IShareBoardData& share, c
 		}
 	}
 	
-	std::cout << "Showing positions under attack for pawn: " << std::endl;
+	// std::cout << "Showing positions under attack for pawn: " << std::endl;
 	for (Position p : availablePositions) {
-		std::cout << "pos: " << p.col << ", " << p.row << std::endl;
+		// std::cout << "pos: " << p.col << ", " << p.row << std::endl;
 	}
 
 	return availablePositions;
@@ -176,4 +176,9 @@ std::string Pawn::get_image_source() {
 
 void Pawn::make_first_move() {
 	this->firstMove = false;
+}
+
+
+void Pawn::undo_first_move() {
+	this->firstMove = true;
 }

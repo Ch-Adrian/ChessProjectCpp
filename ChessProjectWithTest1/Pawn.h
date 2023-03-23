@@ -15,7 +15,7 @@ public:
 	virtual std::vector<Position> get_positions_under_attack(IShareBoardData& share, const Position& pos);
 	virtual std::string get_image_source();
 	void make_first_move();
-
+	void undo_first_move();
 };
 
 

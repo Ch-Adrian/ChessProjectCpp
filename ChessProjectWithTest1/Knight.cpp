@@ -40,7 +40,7 @@ std::vector<Position> Knight::get_available_positions(IShareBoardData& share, co
 
 	for (int i = 0; i <= 15; i++){
 
-		std::cout << "knight: " << next_position << std::endl;
+		// std::cout << "knight: " << next_position << std::endl;
 
 		if (i % 2) {
 			if (position_inside_board(next_position)) {

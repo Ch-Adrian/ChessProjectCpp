@@ -43,8 +43,8 @@ Board::Board(Window& mainWindow): mainWindow(mainWindow) {
 			int y = (int)(h / 100);
 			if (w > 0) x++;
 			if (h > 0) y++;
-			std::cout << "x: " << x << "  y:  " << y << std::endl;
-			std::cout << this->array_of_fields[x][y].absolutePosition.x << std::endl;
+			// std::cout << "x: " << x << "  y:  " << y << std::endl;
+			// std::cout << this->array_of_fields[x][y].absolutePosition.x << std::endl;
 
 			this->array_of_fields[x][y].absolutePosition.x = w;
 			this->array_of_fields[x][y].absolutePosition.y = h;
@@ -174,7 +174,7 @@ void Board::apply_pieces() {
 		else {
 
 		}
-		std::cout << "apply_pieces: " << x << ", " << y << " " << 25 + (x - 1) * 100 << std::endl;
+		// std::cout << "apply_pieces: " << x << ", " << y << " " << 25 + (x - 1) * 100 << std::endl;
 		this->array_of_pieces[x][y].picture->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
 
 	}

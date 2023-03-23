@@ -31,3 +31,8 @@ bool Piece::position_inside_board(const Position& pos) {
 	}
 	return false;
 }
+
+std::ostream& operator<<(std::ostream& out, Piece& piece) {
+	out << "Piece: type - " << piece.get_type() << " color - " << piece.get_color();
+	return out;
+}

@@ -7,7 +7,9 @@
 #include "Pawn.h"
 #include "Rook.h"
 #include "Knight.h"
+#include "Piece.h"
 #include <math.h>
+#include <iostream>
 
 BoardData::BoardData() {
 
@@ -172,7 +174,7 @@ int BoardData::move_piece(const Move& move) {
 				if (enemy != nullptr) {
 					if (enemy->get_color() == BLACK &&
 						enemy->get_type() == PAWN) {
-						std::cout << "en passant succeed" << std::endl;
+						// std::cout << "en passant succeed" << std::endl;
 						boardArray[move.to.col][move.from.row] = nullptr;
 						board.erase(Position(move.to.col, move.from.row));
 					}
@@ -183,7 +185,7 @@ int BoardData::move_piece(const Move& move) {
 				if (enemy != nullptr) {
 					if (enemy->get_color() == WHITE &&
 						enemy->get_type() == PAWN) {
-						std::cout << "en passant succeed" << std::endl;
+						// std::cout << "en passant succeed" << std::endl;
 						boardArray[move.to.col][move.from.row] = nullptr;
 						board.erase(Position(move.to.col, move.from.row));
 					}
@@ -300,52 +302,32 @@ void BoardData::changeTurn() {
 }
 
 
-bool BoardData::isKingChecked(PlayerColor color) {
-
-	if (color == PlayerColor::BLACK) {
-
-		Position* black_king_position = findKingPosition(PlayerColor::BLACK, this->board);
-		if (black_king_position == nullptr) return false;
-
-		std::map<Position, Piece*>::iterator map_it;
-		for (map_it = this->board.begin(); map_it != this->board.end(); map_it++) {
-			Piece* piece = map_it->second;
-			Position piece_pos = map_it->first;
-			
-			if (piece->get_color() == PlayerColor::BLACK) continue;
-
-			for (Position pos : piece->get_positions_under_attack(*this, piece_pos)) {
-				if (pos == *black_king_position) {
-					return true;
-				}
-			}
-
-		}
-		return false;
-
-	}
-	else {
+bool BoardData::checkKingChecked(PlayerColor color) {
 	
-		Position* white_king_position = findKingPosition(PlayerColor::WHITE, this->board);
-		if (white_king_position == nullptr) return false;
+	std::cout << "Checking king's position ... " << std::endl;
+	Position* king_position = findKingPosition(color, this->board);
+	if (king_position == nullptr) return false;
+	std::cout << "Kings position: " << *king_position << std::endl;
 
-		std::map<Position, Piece*>::iterator map_it;
-		for (map_it = this->board.begin(); map_it != this->board.end(); map_it++) {
-			Piece* piece = map_it->second;
-			Position piece_pos = map_it->first;
-			
-			if (piece->get_color() == PlayerColor::WHITE) continue;
-
-			for (Position pos : piece->get_positions_under_attack(*this, piece_pos)) {
-				if (pos == *white_king_position) {
-					return true;
-				}
-			}
-
-		}
-		return false;
+	std::map<Position, Piece*>::iterator map_it;
+	for (map_it = this->board.begin(); map_it != this->board.end(); map_it++) {
+		Piece* piece = map_it->second;
+		Position piece_pos = map_it->first;
 		
+		if (piece->get_color() == color) continue;
+
+		for (Position pos : piece->get_positions_under_attack(*this, piece_pos)) {
+			std::cout << "piece: " << *piece << " pos: " << pos << std::endl;
+			if (pos == *king_position) {
+				delete king_position;
+				return true;
+			}
+		}
+
 	}
+
+	delete king_position;
+	return false;
 	
 }
 
@@ -354,12 +336,132 @@ Position* BoardData::findKingPosition(PlayerColor color, std::map<Position, Piec
 	std::map<Position, Piece*>::iterator map_it;
 	for (map_it = board.begin(); map_it != board.end(); map_it++) {
 		Piece* piece = map_it->second;
-		Position piece_pos = map_it->first;
+		Position* piece_pos = new Position(map_it->first);
 		
 		if (piece->get_type() == PieceType::KING && piece->get_color() == color){ 
-			return &piece_pos;
+			return piece_pos;
 		}
+		delete piece_pos;
 
 	}
 	return nullptr;
+}
+
+bool BoardData::checkKingIsThreatened(PlayerColor kingsColor) {
+
+	if (this->checkKingChecked(kingsColor)) {
+		this->kingsChecked = kingsColor;
+		return true;
+	}
+	return false;
+
+}
+
+bool BoardData::simulateKingIsReleased(Move move, PlayerColor kingsColor) {
+	Position from(move.from.col, move.from.row);
+	Position to(move.to.col, move.to.row);
+	bool return_value = true;
+
+	Position* en_passant_top = nullptr;
+	Piece* board_array_element_top = nullptr;
+	Position* en_passant_bottom = nullptr;
+	Piece* board_array_element_bottom = nullptr;
+
+	bool pawn_first_move = false;
+	bool pawn_double_move = false;
+	Move pawn_double_move2;
+	if (this->get_type(move.from) == PAWN) {
+
+		((Pawn*)(this->get_piece(move.from)))->make_first_move();
+		pawn_first_move = true;
+
+		// double squre move
+		if (abs(move.to.row - move.from.row) == 2) {
+			pawn_double_move2 = this->pawn_double_move;
+			this->pawn_double_move = move;
+			pawn_double_move = true;
+		}
+
+		//en passant
+		if (abs(move.to.col - move.from.col) == 1 &&
+			this->get_piece(move.to) == nullptr) {
+			if (this->get_color(move.from) == WHITE) {
+				Piece* enemy = this->get_piece(Position(move.to.col, move.from.row));
+				if (enemy != nullptr) {
+					if (enemy->get_color() == BLACK &&
+						enemy->get_type() == PAWN) {
+						en_passant_top = new Position(move.to.col, move.from.row);
+						// std::cout << "en passant succeed" << std::endl;
+
+						board_array_element_top = boardArray[move.to.col][move.from.row];
+						boardArray[move.to.col][move.from.row] = nullptr;
+						board.erase(*en_passant_top);
+					}
+				}
+			}
+			else if(this->get_color(move.from) == BLACK) {
+				Piece* enemy = this->get_piece(Position(move.to.col, move.from.row));
+				if (enemy != nullptr) {
+					if (enemy->get_color() == WHITE &&
+						enemy->get_type() == PAWN) {
+						en_passant_bottom = new Position(move.to.col, move.from.row);
+						// std::cout << "en passant succeed" << std::endl;
+
+						board_array_element_bottom = boardArray[move.to.col][move.from.row];
+						boardArray[move.to.col][move.from.row] = nullptr;
+						board.erase(*en_passant_bottom);
+					}
+				}
+
+			}
+
+		}
+
+	}
+
+	boardArray[to.col][to.row] = boardArray[from.col][from.row];
+	boardArray[from.col][from.row] = nullptr;
+	board.erase(Position(to));
+	board.insert({ Position(to), boardArray[to.col][to.row] });
+	board.erase(Position(from));
+
+	//Move has been made.
+
+	if (this->checkKingChecked(this->getTurn())) {
+		return_value = false;
+	}
+	
+	// revert changes
+	if (en_passant_bottom != nullptr) {
+		boardArray[(*en_passant_bottom).col][(*en_passant_bottom).row] = board_array_element_bottom;
+		board.insert({ *en_passant_bottom, boardArray[(*en_passant_bottom).col][(*en_passant_bottom).row] });
+	}
+
+	if (en_passant_top != nullptr) {
+		boardArray[(*en_passant_top).col][(*en_passant_top).row] = board_array_element_top;
+		board.insert({ *en_passant_top, boardArray[(*en_passant_top).col][(*en_passant_top).row] });
+	}
+
+	board.erase(Position(to));
+	board.erase(Position(from));
+	board.insert({ Position(from), boardArray[to.col][to.row] });
+	boardArray[from.col][from.row] = boardArray[to.col][to.row];
+	boardArray[to.col][to.row] = nullptr;
+
+	if (pawn_double_move) {
+		this->pawn_double_move = pawn_double_move2;
+	}
+
+	if (pawn_first_move) {
+		((Pawn*)(this->get_piece(move.from)))->undo_first_move();
+	}
+	return return_value;
+}
+
+void BoardData::unCheckKing() {
+	this->kingsChecked = PlayerColor::EMPTY;
+}
+
+bool BoardData::isKingChecked(PlayerColor color) {
+	return color == this->kingsChecked;
 }

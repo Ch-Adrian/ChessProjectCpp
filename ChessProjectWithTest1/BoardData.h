@@ -4,7 +4,7 @@
 #include "Move.h"
 #include "IShareBoardData.h"
 
-class BoardData: public IShareBoardData
+class BoardData : public IShareBoardData
 {
 
 private:
@@ -18,6 +18,7 @@ private:
 	Move pawn_double_move;
 	Position edge_pawn_position;
 	PlayerColor turn;
+	PlayerColor kingsChecked;
 
 public:
 
@@ -37,8 +38,13 @@ public:
 	bool validate_move(const Move& move);
 	void exchange_pawn(PieceType type, PlayerColor color);
 	std::vector<Position> get_all_available_positions(const Position& pos);
-	bool isKingChecked(PlayerColor color);
+	bool checkKingChecked(PlayerColor color);
 	Position* findKingPosition(PlayerColor color, std::map<Position, Piece*>& board);
+	bool checkKingIsThreatened(PlayerColor kingsColor);
+	bool simulateKingIsReleased(Move move, PlayerColor kingsColor);
+	void unCheckKing();
+	bool isKingChecked(PlayerColor color);
+
 
 	~BoardData();
 };

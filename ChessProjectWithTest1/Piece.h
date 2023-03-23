@@ -25,6 +25,7 @@ public:
 	PlayerColor get_color();
 	int get_id();
 	void set_id(int id);
+	friend std::ostream& operator<<(std::ostream& out, Piece& piece);
 
 };
 

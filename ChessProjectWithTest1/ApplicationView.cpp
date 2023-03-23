@@ -56,17 +56,20 @@ bool ApplicationView::actionRelease(SDL_Event& event) {
 	//std::cout << "initial: " << moving_picture_init_col << ", " << moving_picture_init_row << std::endl;
 	//std::cout << "final: " << moving_picture_final_col << ", " << moving_picture_final_row << std::endl;
 	Move next_move = Move(Position(moving_picture_init_col, moving_picture_init_row), Position(moving_picture_final_col, moving_picture_final_row));
-	bool move_acceptance = this->board.validate_move(next_move);
+	bool move_acceptance = this->boardData.validate_move(next_move);
 	//std::cout << "validate: " << move_acceptance << std::endl;
 
-	if (move_acceptance && !next_move.isBackToTheSamePlace()) {
+	if (move_acceptance && !next_move.isBackToTheSamePlace() &&
+		( !this->boardData.isKingChecked(this->boardData.getTurn()) || 
+		(this->boardData.isKingChecked(this->boardData.getTurn()) && 
+			this->boardData.simulateKingIsReleased(next_move, this->boardData.getTurn())))) {
 
 		int field_next_position_x_px = convX_to_pixels(convX_to_position(event.button.x));
 		int field_next_position_y_px = convY_to_pixels(convY_to_position(event.button.y));
 
 		//std::cout << "next: " << field_next_position_x_px << ", " << field_next_position_y_px << std::endl;
 		board.drag_piece(moving_picture_init_row, moving_picture_init_col, field_next_position_x_px, field_next_position_y_px);
-		int ret_val = this->board.move_piece(next_move);
+		int ret_val = this->boardData.move_piece(next_move);
 		board.apply_pieces();
 		//board.change_position(next_move.from.col, next_move.from.row, field_next_position_x_px, field_next_position_y_px );
 
@@ -79,8 +82,10 @@ bool ApplicationView::actionRelease(SDL_Event& event) {
 			show_middleViewPort = true;
 		}
 		
+		this->boardData.unCheckKing();
 		this->boardData.changeTurn();
-
+		this->boardData.checkKingIsThreatened(this->boardData.getTurn());
+		// std::cout << "Is king threatened?: " << this->boardData.isKingChecked(this->boardData.getTurn()) << std::endl;
 	}
 	else {
 
