@@ -8,6 +8,9 @@ Basic chess game. Two players play against each other.
 Game has turn-based system of moves.
 The first player who check mate the adversary king wins.
 
+### Remarks
+Game's rules also include 'En passant' move.
+
 View of board:
 
  ![Board view](./docImg/board.png)
