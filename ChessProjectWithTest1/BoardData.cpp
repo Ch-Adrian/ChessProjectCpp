@@ -198,6 +198,28 @@ int BoardData::move_piece(const Move& move) {
 		}
 
 	}
+	else if (this->get_type(move.from) == PieceType::KING) {
+		((King*)(this->get_piece(move.from)))->make_first_move();
+
+		// Castle
+		if (abs(move.from.col - move.to.col) == 2) {
+
+			Move rook_move;
+			if (move.to.col < move.from.col) {
+				rook_move = Move(Position(1, move.from.row), Position(move.to.col + 1, move.to.row));
+			}
+			else {
+				rook_move = Move(Position(8, move.from.row), Position(move.to.col - 1, move.to.row));
+			}
+
+			boardArray[rook_move.to.col][rook_move.to.row] = boardArray[rook_move.from.col][rook_move.from.row];
+			boardArray[rook_move.from.col][rook_move.from.row] = nullptr;
+			board.erase(Position(rook_move.to));
+			board.insert({ Position(rook_move.to), boardArray[rook_move.to.col][rook_move.to.row] });
+			board.erase(Position(rook_move.from));
+		}
+
+	}
 	else {
 		if(!this->pawn_double_move.isEmpty())
 			this->pawn_double_move = Move();
@@ -297,10 +319,8 @@ void BoardData::changeTurn() {
 
 bool BoardData::checkKingChecked(PlayerColor color) {
 	
-	std::cout << "Checking king's position ... " << std::endl;
 	Position* king_position = findKingPosition(color, this->board);
 	if (king_position == nullptr) return false;
-	std::cout << "Kings position: " << *king_position << std::endl;
 
 	std::map<Position, Piece*>::iterator map_it;
 	for (map_it = this->board.begin(); map_it != this->board.end(); map_it++) {
@@ -310,7 +330,6 @@ bool BoardData::checkKingChecked(PlayerColor color) {
 		if (piece->get_color() == color) continue;
 
 		for (Position pos : piece->get_positions_under_attack(*this, piece_pos)) {
-			std::cout << "piece: " << *piece << " pos: " << pos << std::endl;
 			if (pos == *king_position) {
 				delete king_position;
 				return true;
@@ -360,6 +379,11 @@ PlayerColor BoardData::simulateKingIsReleased(Move move) {
 	Position from(move.from.col, move.from.row);
 	Position to(move.to.col, move.to.row);
 	PlayerColor return_value = PlayerColor::EMPTY;
+
+
+	bool king_first_move = false;
+	bool king_castle = false;
+	Move rook_move;
 
 	Position* en_passant_top = nullptr;
 	Piece* board_array_element_top = nullptr;
@@ -415,6 +439,29 @@ PlayerColor BoardData::simulateKingIsReleased(Move move) {
 		}
 
 	}
+	else if (this->get_type(move.from) == PieceType::KING) {
+		((King*)(this->get_piece(move.from)))->make_first_move();
+		king_first_move = true;
+
+		// Castle
+		if (abs(move.from.col - move.to.col) == 2) {
+
+			king_castle = true;
+			if (move.to.col < move.from.col) {
+				rook_move = Move(Position(1, move.from.row), Position(move.to.col + 1, move.to.row));
+			}
+			else {
+				rook_move = Move(Position(8, move.from.row), Position(move.to.col - 1, move.to.row));
+			}
+
+			boardArray[rook_move.to.col][rook_move.to.row] = boardArray[rook_move.from.col][rook_move.from.row];
+			boardArray[rook_move.from.col][rook_move.from.row] = nullptr;
+			board.erase(Position(rook_move.to));
+			board.insert({ Position(rook_move.to), boardArray[rook_move.to.col][rook_move.to.row] });
+			board.erase(Position(rook_move.from));
+		}
+
+	}
 
 	Piece* assulted_piece = boardArray[to.col][to.row];
 	boardArray[to.col][to.row] = boardArray[from.col][from.row];
@@ -424,7 +471,6 @@ PlayerColor BoardData::simulateKingIsReleased(Move move) {
 	board.erase(Position(from));
 
 	//Move has been made.
-
 	if (this->checkKingChecked(PlayerColor::BLACK)) {
 		return_value = PlayerColor::BLACK;
 	}else if( this->checkKingChecked(PlayerColor::WHITE) ) {
@@ -447,6 +493,20 @@ PlayerColor BoardData::simulateKingIsReleased(Move move) {
 	board.insert({ Position(from), boardArray[to.col][to.row] });
 	boardArray[from.col][from.row] = boardArray[to.col][to.row];
 	boardArray[to.col][to.row] = assulted_piece;
+
+	if (king_first_move) {
+		((King*)(this->get_piece(move.from)))->undo_first_move();
+
+		if (king_castle) {
+			
+			board.erase(Position(rook_move.to));
+			board.erase(Position(rook_move.from));
+			board.insert({ Position(rook_move.from), boardArray[rook_move.to.col][rook_move.to.row] });
+			boardArray[rook_move.from.col][rook_move.from.row] = boardArray[rook_move.to.col][rook_move.to.row];
+			boardArray[rook_move.to.col][rook_move.to.row] = nullptr;
+				
+		}
+	}
 
 	if (pawn_double_move) {
 		this->pawn_double_move = pawn_double_move2;

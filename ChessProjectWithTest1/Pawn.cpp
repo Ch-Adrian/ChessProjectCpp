@@ -11,6 +11,7 @@ Pawn::Pawn(PieceType type, PlayerColor color): Piece(type, color) {
 	else {
 		this->image_source = "resources/black_pawn.bmp";
 	}
+
 }
 
 bool Pawn::validate_move(IShareBoardData& share, const Move& move){

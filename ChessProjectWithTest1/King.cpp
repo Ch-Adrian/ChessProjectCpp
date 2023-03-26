@@ -3,6 +3,9 @@
 #include "Settings.h"
 
 King::King(PieceType type, PlayerColor color): Piece(type, color) {
+
+	this->firstMove = false;
+
 	if (color == WHITE) {
 		this->image_source = "resources/white_king.bmp";
 	}
@@ -79,6 +82,82 @@ std::vector<Position> King::get_available_positions(IShareBoardData& share, cons
 
 	}
 
+	if (this->firstMove == false) {
+
+		bool threatened_left = false;
+		bool threatened_right = false;
+
+		bool free_space_left = false;
+		bool free_space_right = false;
+
+
+		Position pos_left(pos);
+		Position pos_right(pos);
+		
+		while (position_inside_board(pos_left)) {
+			if (enemyMapPositions.find(pos_left) != enemyMapPositions.end()) {
+				threatened_left = true;
+				break;
+			}
+			
+			pos_left.col--;
+		}
+		
+		while (position_inside_board(pos_right)) {
+			if (enemyMapPositions.find(pos_right) != enemyMapPositions.end()) {
+				threatened_right = true;
+				break;
+			}
+
+			pos_right.col++;
+		}
+
+		Position check_blank_left(pos);
+		if (share.get_type(check_blank_left) == PieceType::KING) {
+			check_blank_left.col--;
+			if (share.get_type(check_blank_left) == PieceType::NONE) {
+				check_blank_left.col--;
+				if (share.get_type(check_blank_left) == PieceType::NONE) {
+					check_blank_left.col--;
+					if (share.get_type(check_blank_left) == PieceType::LEFT_ROOK) {
+						free_space_left = true;
+					}
+				}
+			}
+		}
+
+		if (free_space_left && !threatened_left) {
+			Position left_pos(pos);
+			left_pos.col -= 2;
+			availablePositions.push_back(left_pos);
+		}
+		
+		
+		Position check_blank_right(pos);
+		if (share.get_type(check_blank_right) == PieceType::KING) {
+			check_blank_right.col++;
+			if (share.get_type(check_blank_right) == PieceType::NONE) {
+				check_blank_right.col++;
+				if (share.get_type(check_blank_right) == PieceType::NONE) {
+					check_blank_right.col++;
+					if (share.get_type(check_blank_right) == PieceType::NONE) {
+						check_blank_right.col++;
+						if (share.get_type(check_blank_right) == PieceType::RIGHT_ROOK) {
+							free_space_right = true;
+						}
+					}
+				}
+			}
+		}
+
+		if (free_space_right && !threatened_right) {
+			Position right_pos(pos);
+			right_pos.col += 2;
+			availablePositions.push_back(right_pos);
+		}
+		
+	}
+
 	return availablePositions;
 }
 
@@ -94,4 +173,11 @@ bool King::checkmate() {
 	return false;
 }
 
+void King::make_first_move() {
+	this->firstMove = true;
+}
+
+void King::undo_first_move() {
+	this->firstMove = false;
+}
 

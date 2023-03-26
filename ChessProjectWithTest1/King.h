@@ -5,6 +5,7 @@
 class King: public Piece
 {
 	std::string image_source;
+	bool firstMove;
 
 public:
 
@@ -14,5 +15,8 @@ public:
 	virtual std::vector<Position> get_positions_under_attack(IShareBoardData& share, const Position& pos);
 	virtual std::string get_image_source();
 	bool checkmate();
+	void make_first_move();
+	void undo_first_move();
+
 };
 
