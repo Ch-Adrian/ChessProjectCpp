@@ -36,8 +36,8 @@ Board::Board(Window& mainWindow): mainWindow(mainWindow) {
 		ordered_picture_pieces.push_back(new Picture());
 	}
 	
-	for (int w = -75; w < ApplicationView::BOARD_WIDTH; w += 100) {
-		for (int h = -75; h < ApplicationView::BOARD_HEIGHT; h += 100) {
+	for (int w = -75; w < BOARD_WIDTH; w += 100) {
+		for (int h = -75; h < BOARD_HEIGHT; h += 100) {
 
 			int x = (int)(w / 100);
 			int y = (int)(h / 100);
@@ -75,8 +75,8 @@ Board::Board(Window& mainWindow): mainWindow(mainWindow) {
 			else {
 				this->array_of_fields[x][y].picture->init("resources/white_field.bmp", renderer);
 			}
-			this->array_of_fields[x][y].picture->setSourceRect(0, 0, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
-			this->array_of_fields[x][y].picture->setDestinationRect(w, h, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
+			this->array_of_fields[x][y].picture->setSourceRect(0, 0, this->FIELD_WIDTH, this->FIELD_HEIGHT);
+			this->array_of_fields[x][y].picture->setDestinationRect(w, h, this->FIELD_WIDTH, this->FIELD_HEIGHT);
 
 			c = !c;
 		}
@@ -85,16 +85,16 @@ Board::Board(Window& mainWindow): mainWindow(mainWindow) {
 	// White pieces
 	/*for (int x = 1; x <= 8; x++) {
 		this->array_of_pieces[x][2].picture->>init("resources/white_pawn.bmp", renderer);
-		this->array_of_pieces[x][2].picture->>setSourceRect(0, 0, FIELD_WIDTH, FIELD_HEIGHT);
-		this->array_of_pieces[x][2].picture->>setDestinationRect(25 + (x - 1) * 100, 125, FIELD_WIDTH, FIELD_HEIGHT);
+		this->array_of_pieces[x][2].picture->>setSourceRect(0, 0, this->FIELD_WIDTH, this->FIELD_HEIGHT);
+		this->array_of_pieces[x][2].picture->>setDestinationRect(25 + (x - 1) * 100, 125, this->FIELD_WIDTH, this->FIELD_HEIGHT);
 		//this->array_of_fields[x][2].picture->>setBlendMode(SDL_BLENDMODE_NONE);
 	}
 
 	// Black pieces
 	for (int x = 1; x <= 8; x++) {
 		this->array_of_pieces[x][7].picture->>init("resources/black_pawn.bmp", renderer);
-		this->array_of_pieces[x][7].picture->>setSourceRect(0, 0, FIELD_WIDTH, FIELD_HEIGHT);
-		this->array_of_pieces[x][7].picture->>setDestinationRect(25 + (x - 1) * 100, 625, FIELD_WIDTH, FIELD_HEIGHT);
+		this->array_of_pieces[x][7].picture->>setSourceRect(0, 0, this->FIELD_WIDTH, this->FIELD_HEIGHT);
+		this->array_of_pieces[x][7].picture->>setDestinationRect(25 + (x - 1) * 100, 625, this->FIELD_WIDTH, this->FIELD_HEIGHT);
 		//this->array_of_fields[x][7].picture->>setBlendMode(SDL_BLENDMODE_BLEND);
 	}
 	*/
@@ -117,8 +117,8 @@ Board::Board(Window& mainWindow): mainWindow(mainWindow) {
 		}
 	
 		this->array_of_pieces[x][y].picture->init(p.second->get_image_source(), renderer);
-		this->array_of_pieces[x][y].picture->setSourceRect(0, 0, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
-		this->array_of_pieces[x][y].picture->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
+		this->array_of_pieces[x][y].picture->setSourceRect(0, 0, this->FIELD_WIDTH, this->FIELD_HEIGHT);
+		this->array_of_pieces[x][y].picture->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, this->FIELD_WIDTH, this->FIELD_HEIGHT);
 		
 	}
 
@@ -166,8 +166,8 @@ void Board::apply_pieces() {
 		else if(p.second->get_id() != -1){
 			this->ordered_picture_pieces.push_back(new Picture());
 			this->ordered_picture_pieces.back()->init(p.second->get_image_source(), renderer);
-			this->ordered_picture_pieces.back()->setSourceRect(0, 0, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
-			this->ordered_picture_pieces.back()->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
+			this->ordered_picture_pieces.back()->setSourceRect(0, 0, this->FIELD_WIDTH, this->FIELD_HEIGHT);
+			this->ordered_picture_pieces.back()->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, this->FIELD_WIDTH, this->FIELD_HEIGHT);
 			this->array_of_pieces[x][y].picture = this->ordered_picture_pieces[p.second->get_id()];
 
 		}
@@ -175,7 +175,7 @@ void Board::apply_pieces() {
 
 		}
 		// std::cout << "apply_pieces: " << x << ", " << y << " " << 25 + (x - 1) * 100 << std::endl;
-		this->array_of_pieces[x][y].picture->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, ApplicationView::FIELD_WIDTH, ApplicationView::FIELD_HEIGHT);
+		this->array_of_pieces[x][y].picture->setDestinationRect(25 + (x - 1) * 100, 25 + (y-1)*100, this->FIELD_WIDTH, this->FIELD_HEIGHT);
 
 	}
 
@@ -207,8 +207,8 @@ void Board::drag_piece(int row, int col, int destination_x, int destination_y) {
 	this->array_of_pieces[col][row].
 		picture->setDestinationRect(destination_x, 
 					destination_y, 
-					ApplicationView::FIELD_WIDTH, 
-					ApplicationView::FIELD_HEIGHT);
+					this->FIELD_WIDTH, 
+					this->FIELD_HEIGHT);
 	//this->array_of_pieces[col][row].picture->render(renderer);
 }
 
@@ -219,10 +219,10 @@ void Board::drag_piece(Position pos, AbsolutePosition abs_pos){
 
 	this->array_of_pieces[pos.col][pos.row].
 		picture->setDestinationRect(
-				abs_pos.x - ApplicationView::FIELD_WIDTH/2,
-				abs_pos.y - ApplicationView::FIELD_HEIGHT/2, 
-				ApplicationView::FIELD_WIDTH, 
-				ApplicationView::FIELD_HEIGHT);
+				abs_pos.x - this->FIELD_WIDTH/2,
+				abs_pos.y - this->FIELD_HEIGHT/2, 
+				this->FIELD_WIDTH, 
+				this->FIELD_HEIGHT);
 }
 
 void Board::mark_accesible_fields(int moving_picture_init_col, int moving_picture_init_row) {

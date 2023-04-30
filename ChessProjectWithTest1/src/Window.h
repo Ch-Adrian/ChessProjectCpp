@@ -1,5 +1,5 @@
 #pragma once
-#include "SdlIncludes.h";
+#include "SdlIncludes.h"
 #include "InitializationException.h"
 
 class Window
@@ -21,7 +21,7 @@ private:
 	void initRenderer();
 
 public:
-	Window(const std::string title, const int width, const int height) throw(InitializationException);
+	Window(const std::string title, const int width, const int height); 
 	~Window();
 	void handleEvent(SDL_Event& e);
 

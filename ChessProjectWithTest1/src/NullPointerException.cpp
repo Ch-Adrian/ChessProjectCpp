@@ -3,10 +3,10 @@
 
 
 NullPointerException::NullPointerException(const std::string msg)
-	: std::exception(msg.c_str()) {
+	: std::exception() {
 	this->message = "NullPointerException: " + msg;
 }
 
-const char* NullPointerException::what() const {
+const char* NullPointerException::what() {
 	return this->message.c_str();
 }

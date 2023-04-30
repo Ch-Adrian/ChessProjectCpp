@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "King.h"
 #include "Settings.h"
+#include <set>
 
 King::King(PieceType type, PlayerColor color): Piece(type, color) {
 
@@ -20,7 +21,7 @@ bool King::validate_move(IShareBoardData& share, const Move& move){
 		return false;
 	}
 
-	std::vector<Position>& vec = this->get_available_positions(share, move.from);
+	std::vector<Position> vec = this->get_available_positions(share, move.from);
 	for (Position p : vec) {
 		if (p == move.to) {
 			return true;

@@ -9,6 +9,6 @@ private:
 public:
 
     InitializationException(const std::string msg);
-    const char* what() const;
+    const char* what();
 };
 

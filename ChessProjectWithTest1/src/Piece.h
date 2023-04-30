@@ -2,6 +2,7 @@
 #include "Position.h"
 #include "Move.h"
 #include "IShareBoardData.h"
+#include <vector>
 
 class Piece
 {

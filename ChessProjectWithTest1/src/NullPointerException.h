@@ -10,6 +10,6 @@ private:
 public:
 
     NullPointerException(const std::string msg);
-    const char* what() const;
+    const char* what() ;
 };
 

@@ -17,7 +17,7 @@ bool Bishop::validate_move(IShareBoardData& share, const Move& move){
 		return false;
 	}
 
-	std::vector<Position>& vec = this->get_available_positions(share, move.from);
+	std::vector<Position> vec = this->get_available_positions(share, move.from);
 	for (Position p : vec) {
 		if (p == move.to) {
 			return true;

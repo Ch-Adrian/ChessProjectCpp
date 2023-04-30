@@ -1,6 +1,7 @@
 #include "pch.h"
 #pragma once
 #include "Settings.h"
+#include <vector>
 
 class Piece;
 

@@ -27,6 +27,12 @@ private:
 
 public:
 
+	int BOARD_WIDTH = 850;
+	int BOARD_HEIGHT = 850;
+	int FIELD_WIDTH = 100;
+	int FIELD_HEIGHT = 100;
+	int BOARD_BORDER_WIDTH = 25;
+
 	Board(Window &mainWindow);
 	~Board();
 	void render_board();
